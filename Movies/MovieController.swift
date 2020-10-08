@@ -87,10 +87,14 @@ class MovieController: UITableViewController {
         guard let movieCell = cell as? MovieCell else {
             return
         }
-        let rsrc = "https://image.tmdb.org/t/p/original" + movie.posterPath
-        print("Resource")
-        print(rsrc)
-        guard let url = URL(string: rsrc) else {
+        configureImage(for: movieCell, with: movie)
+        movieCell.rating.text = String(movie.rating)
+        movieCell.title.text = movie.title
+        movieCell.totalVotes.text = String(movie.totalVotes)
+    }
+    
+    private func configureImage(for movieCell: MovieCell, with movie: MovieItem) {
+        guard let url = URL(string: "https://image.tmdb.org/t/p/original" + movie.posterPath) else {
             fatalError()
         }
         print(movie.posterPath)
@@ -116,10 +120,5 @@ class MovieController: UITableViewController {
                         print("Job failed: \(error.localizedDescription)")
                     }
                 })
-        movieCell.rating.text = String(movie.rating)
-        movieCell.title.text = movie.title
-        movieCell.totalVotes.text = String(movie.totalVotes)
-        
     }
-    
 }
