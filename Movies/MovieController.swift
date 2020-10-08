@@ -20,17 +20,26 @@ class MovieController: UITableViewController {
         super.init(coder: coder)
     }
     
+    @IBAction func switchMode(_ sender: Any) {
+        if #available(iOS 13.0, *) {
+            if overrideUserInterfaceStyle != .dark {
+                overrideUserInterfaceStyle = .dark
+                let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
+                navigationController?.navigationBar.titleTextAttributes = textAttributes
+            }
+            else {
+                overrideUserInterfaceStyle = .light
+                let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.black]
+                navigationController?.navigationBar.titleTextAttributes = textAttributes
+            }
+        } else {
+            // Fallback on earlier versions
+            print("light")
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-//        if #available(iOS 13.0, *) {
-//            overrideUserInterfaceStyle = .dark
-//            let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
-//            navigationController?.navigationBar.titleTextAttributes = textAttributes
-//        } else {
-//            // Fallback on earlier versions
-//            print("light")
-//        }
-        navigationController?.navigationBar.prefersLargeTitles = true
         print("View Loaded")
 //        fetchMovies()
         activityIndicatorView = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
