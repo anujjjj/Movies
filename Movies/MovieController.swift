@@ -5,7 +5,9 @@
 //  Created by Anuj Pande on 08/10/20.
 //
 
+import Foundation
 import UIKit
+import Kingfisher
 
 class MovieController: UITableViewController {
     
@@ -48,7 +50,7 @@ class MovieController: UITableViewController {
                   let data = data else {
                 fatalError()
             }
-//            sleep(2)
+            sleep(2)
             let decoder = JSONDecoder()
             guard let response = try? decoder.decode(MediaResponse.self, from: data) else {
                 return
@@ -64,7 +66,6 @@ class MovieController: UITableViewController {
                 self.tableView.separatorStyle = .singleLine
             }
         }.resume()
-        
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -86,8 +87,39 @@ class MovieController: UITableViewController {
         guard let movieCell = cell as? MovieCell else {
             return
         }
+        let rsrc = "https://image.tmdb.org/t/p/original" + movie.posterPath
+        print("Resource")
+        print(rsrc)
+        guard let url = URL(string: rsrc) else {
+            fatalError()
+        }
+        print(movie.posterPath)
+        print(url)
+        movieCell.poster.kf.setImage(with: url)
+        let processor = DownsamplingImageProcessor(size: movieCell.poster.intrinsicContentSize)
+            |> RoundCornerImageProcessor(cornerRadius: 20)
+        movieCell.poster.kf.indicatorType = .activity
+        movieCell.poster.kf.setImage(
+            with: url,
+            placeholder: UIImage(named: "movieImage"),
+            options: [
+                .processor(processor),
+                .scaleFactor(UIScreen.main.scale),
+                .transition(.fade(1)),
+            ], completionHandler:
+                {
+                    result in
+                    switch result {
+                    case .success(let value):
+                        print("Task done for: \(value.source.url?.absoluteString ?? "")")
+                    case .failure(let error):
+                        print("Job failed: \(error.localizedDescription)")
+                    }
+                })
         movieCell.rating.text = String(movie.rating)
         movieCell.title.text = movie.title
         movieCell.totalVotes.text = String(movie.totalVotes)
+        
     }
+    
 }

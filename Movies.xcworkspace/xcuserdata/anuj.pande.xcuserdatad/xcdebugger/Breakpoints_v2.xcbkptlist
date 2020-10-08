@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Bucket
-   uuid = "F42F267B-72D0-475A-8653-DFB8FEC5EECA"
-   type = "1"
+   uuid = "DF13A818-C958-4E4E-B8D7-34D2CAC9777B"
+   type = "0"
    version = "2.0">
    <Breakpoints>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "45DEA55E-AFD6-42C1-BBAB-3C2A0DB871D7"
+            uuid = "841F3178-8090-4F91-924A-AD98404A56FE"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Movies/MovieController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
-            landmarkName = "fetchMovies()"
+            startingLineNumber = "23"
+            endingLineNumber = "23"
+            landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "7C349593-2DE4-4B94-B35E-9EE69E359C77"
+            uuid = "A5D96050-CF8A-4E2A-A6C7-56C30C38467D"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Movies/MovieController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "79"
-            endingLineNumber = "79"
-            landmarkName = "tableView(_:cellForRowAt:)"
+            startingLineNumber = "90"
+            endingLineNumber = "90"
+            landmarkName = "configureCell(for:with:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

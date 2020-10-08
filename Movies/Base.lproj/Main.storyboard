@@ -103,6 +103,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="poster" destination="JMY-v6-242" id="YrQ-yz-0bu"/>
                                     <outlet property="rating" destination="PnB-R0-YBU" id="8Y9-lx-JEe"/>
                                     <outlet property="title" destination="WKr-WY-6SL" id="1DE-tJ-jvN"/>
                                     <outlet property="totalVotes" destination="x04-V4-cVY" id="Acf-Qi-awh"/>
