@@ -8,12 +8,13 @@
 import UIKit
 
 class MovieController: UITableViewController {
-
+    
+    var activityIndicatorView: UIActivityIndicatorView!
     public var movies: [MovieItem] = []
     
     required init?(coder: NSCoder) {
-//        movies = MovieCellCreator().movies
-//        print(movies)
+        //        movies = MovieCellCreator().movies
+        //        print(movies)
         super.init(coder: coder)
     }
     
@@ -21,35 +22,49 @@ class MovieController: UITableViewController {
         super.viewDidLoad()
         navigationController?.navigationBar.prefersLargeTitles = true
         print("View Loaded")
-        fetchMovies()
+//        fetchMovies()
+        activityIndicatorView = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
+        tableView.backgroundView = activityIndicatorView
         // Do any additional setup after loading the view.
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        print("View Will Appear")
+        if(movies.count == 0) {
+            activityIndicatorView.startAnimating()
+            tableView.separatorStyle = .none
+            fetchMovies()
+        }
+    }
+    
     func fetchMovies() {
-      guard let url =  URL(string:"https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=8eac22f4c24d01c480e4d99fef2edfc3") else {
-        return
-      }
-      
-      URLSession.shared.dataTask(with: url) { data, response, taskError in
-        guard let httpResponse = response as? HTTPURLResponse,
-          (200..<300).contains(httpResponse.statusCode),
-          let data = data else {
-            fatalError()
+        guard let url =  URL(string:"https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=8eac22f4c24d01c480e4d99fef2edfc3") else {
+            return
         }
-        let decoder = JSONDecoder()
-        guard let response = try? decoder.decode(MediaResponse.self, from: data) else {
-          return
-        }
-        print("Response")
-        let mvs = response.results
-        print(mvs.count)
-        print(mvs[0].title)
-        DispatchQueue.main.async {
-          self.movies = response.results
-          self.tableView.reloadData()
-        }
-      }.resume()
-      
+        
+        URLSession.shared.dataTask(with: url) { data, response, taskError in
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200..<300).contains(httpResponse.statusCode),
+                  let data = data else {
+                fatalError()
+            }
+//            sleep(2)
+            let decoder = JSONDecoder()
+            guard let response = try? decoder.decode(MediaResponse.self, from: data) else {
+                return
+            }
+            print("Response")
+            let mvs = response.results
+            print("Total Results \(mvs.count) ")
+            print(mvs[0].title)
+            DispatchQueue.main.async {
+                self.movies = response.results
+                self.tableView.reloadData()
+                self.activityIndicatorView.stopAnimating()
+                self.tableView.separatorStyle = .singleLine
+            }
+        }.resume()
+        
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
