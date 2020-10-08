@@ -100,21 +100,26 @@ class MovieController: UITableViewController {
         print(movie.posterPath)
         print(url)
         movieCell.poster.kf.setImage(with: url)
-        let processor = DownsamplingImageProcessor(size: movieCell.poster.intrinsicContentSize)
-            |> RoundCornerImageProcessor(cornerRadius: 20)
+//        let processor = DownsamplingImageProcessor(size: movieCell.poster.sizeThatFits(CGSize(width: 30,height: 45)))
+//            |> RoundCornerImageProcessor(cornerRadius: 20)
+        let processor = DownsamplingImageProcessor(size: movieCell.poster.bounds.size)
+            |> RoundCornerImageProcessor(cornerRadius: 10)
         movieCell.poster.kf.indicatorType = .activity
         movieCell.poster.kf.setImage(
             with: url,
-            placeholder: UIImage(named: "movieImage"),
+//            placeholder: UIImage(named: "movieImage"),
             options: [
+                .onFailureImage(UIImage(named: "movieImage")),
                 .processor(processor),
                 .scaleFactor(UIScreen.main.scale),
-                .transition(.fade(1)),
+//                .transition(.fade(0.2)),
+                .cacheOriginalImage,
             ], completionHandler:
                 {
                     result in
                     switch result {
                     case .success(let value):
+                        print(value)
                         print("Task done for: \(value.source.url?.absoluteString ?? "")")
                     case .failure(let error):
                         print("Job failed: \(error.localizedDescription)")
