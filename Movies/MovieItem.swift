@@ -16,7 +16,7 @@ class MovieItem: NSObject, Codable, Identifiable {
     
     override init() {
         id = 123
-        totalVotes = 23
+        totalVotes = 2322
         rating = 0.7
         title = "Movie Title "
         posterPath = "Asd ASD"

@@ -12,8 +12,8 @@ class MovieCellCreator {
     
     init() {
         movies.append(returnMovie())
-//        movies.append(returnMovie())
-//        movies.append(returnMovie())
+        movies.append(returnMovie())
+        movies.append(returnMovie())
     }
     
     private func returnMovie() -> MovieItem {
