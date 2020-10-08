@@ -22,6 +22,14 @@ class MovieController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        if #available(iOS 13.0, *) {
+//            overrideUserInterfaceStyle = .dark
+//            let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
+//            navigationController?.navigationBar.titleTextAttributes = textAttributes
+//        } else {
+//            // Fallback on earlier versions
+//            print("light")
+//        }
         navigationController?.navigationBar.prefersLargeTitles = true
         print("View Loaded")
 //        fetchMovies()
