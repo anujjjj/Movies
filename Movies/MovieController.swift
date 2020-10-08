@@ -19,6 +19,7 @@ class MovieController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.navigationBar.prefersLargeTitles = true
         print("View Loaded")
         fetchMovies()
         // Do any additional setup after loading the view.
