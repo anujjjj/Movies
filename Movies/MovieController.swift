@@ -13,6 +13,7 @@ class MovieController: UITableViewController {
     
     var activityIndicatorView: UIActivityIndicatorView!
     public var movies: [MovieItem] = []
+    var expandedIndexSet: IndexSet = []
     
     required init?(coder: NSCoder) {
         //        movies = MovieCellCreator().movies
@@ -44,7 +45,6 @@ class MovieController: UITableViewController {
 //        fetchMovies()
         activityIndicatorView = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
         tableView.backgroundView = activityIndicatorView
-        // Do any additional setup after loading the view.
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -67,7 +67,7 @@ class MovieController: UITableViewController {
                   let data = data else {
                 fatalError()
             }
-            sleep(2)
+//            sleep(2)
             let decoder = JSONDecoder()
             guard let response = try? decoder.decode(MediaResponse.self, from: data) else {
                 return
@@ -96,11 +96,33 @@ class MovieController: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieItem", for: indexPath)
         let movie = movies[indexPath.row]
-        configureCell(for: cell, with: movie)
+        
+        configureCell(for: cell, with: movie,at: indexPath)
         return cell
     }
     
-    private func configureCell(for cell: UITableViewCell, with movie: MovieItem) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath) {
+            let movie = movies[indexPath.row]
+            toggleOverviewNumberOfLines(for: cell, with: movie, at: indexPath)
+            tableView.reloadRows(at: [indexPath], with: .automatic)
+        }
+    }
+    
+    private func toggleOverviewNumberOfLines(for cell: UITableViewCell, with movie: MovieItem, at indexPath: IndexPath) {
+        guard let movieCell = cell as? MovieCell else {
+            return
+        }
+        if expandedIndexSet.contains(indexPath.row) {
+            movieCell.overview.numberOfLines = 1
+            expandedIndexSet.remove(indexPath.row)
+        } else {
+            movieCell.overview.numberOfLines = 0
+            expandedIndexSet.insert(indexPath.row)
+        }
+    }
+    
+    private func configureCell(for cell: UITableViewCell, with movie: MovieItem,at indexPath: IndexPath) {
         guard let movieCell = cell as? MovieCell else {
             return
         }
@@ -108,6 +130,14 @@ class MovieController: UITableViewController {
         movieCell.rating.text = String(movie.rating)
         movieCell.title.text = movie.title
         movieCell.totalVotes.text = String(movie.totalVotes)
+        movieCell.overview.text = movie.overview
+        if expandedIndexSet.contains(indexPath.row) {
+            movieCell.overview.numberOfLines = 0
+            movieCell.overview.adjustsFontSizeToFitWidth = true
+        } else {
+            movieCell.overview.numberOfLines = 1
+            movieCell.overview.adjustsFontSizeToFitWidth = false
+        }
     }
     
     private func configureImage(for movieCell: MovieCell, with movie: MovieItem) {
@@ -116,7 +146,6 @@ class MovieController: UITableViewController {
         }
         print(movie.posterPath)
         print(url)
-        movieCell.poster.kf.setImage(with: url)
 //        let processor = DownsamplingImageProcessor(size: movieCell.poster.sizeThatFits(CGSize(width: 30,height: 45)))
 //            |> RoundCornerImageProcessor(cornerRadius: 20)
         let processor = DownsamplingImageProcessor(size: movieCell.poster.bounds.size)
@@ -129,7 +158,7 @@ class MovieController: UITableViewController {
                 .onFailureImage(UIImage(named: "movieImage")),
                 .processor(processor),
                 .scaleFactor(UIScreen.main.scale),
-//                .transition(.fade(0.2)),
+                .transition(.fade(0.2)),
                 .cacheOriginalImage,
             ], completionHandler:
                 {

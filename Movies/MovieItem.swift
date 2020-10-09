@@ -13,6 +13,7 @@ class MovieItem: NSObject, Codable, Identifiable {
     let rating: Double
     let title: String
     let posterPath : String
+    let overview: String
     
     override init() {
         id = 123
@@ -20,13 +21,15 @@ class MovieItem: NSObject, Codable, Identifiable {
         rating = 0.7
         title = "Movie Title "
         posterPath = "Asd ASD"
+        overview = "Overview"
     }
     
     enum CodingKeys: String, CodingKey {
-      case id = "id"
-      case totalVotes = "vote_count"
-      case rating = "vote_average"
-      case title = "title"
-      case posterPath = "poster_path"
+        case id = "id"
+        case totalVotes = "vote_count"
+        case rating = "vote_average"
+        case title = "title"
+        case posterPath = "poster_path"
+        case overview = "overview"
     }
 }

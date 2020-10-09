@@ -13,4 +13,5 @@ class MovieCell: UITableViewCell {
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var rating: UILabel!
     @IBOutlet weak var totalVotes: UILabel!
+    @IBOutlet weak var overview: UILabel!
 }
