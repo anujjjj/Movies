@@ -11,6 +11,7 @@ import Kingfisher
 
 class MovieController: UITableViewController {
     
+    @IBOutlet weak var displayMode: UIBarButtonItem!
     var activityIndicatorView: UIActivityIndicatorView!
     public var movies: [MovieItem] = []
     var expandedIndexSet: IndexSet = []
@@ -27,15 +28,17 @@ class MovieController: UITableViewController {
                 overrideUserInterfaceStyle = .dark
                 let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
                 navigationController?.navigationBar.titleTextAttributes = textAttributes
+                displayMode.image = UIImage(systemName: "sun.max.fill")
             }
             else {
                 overrideUserInterfaceStyle = .light
                 let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.black]
                 navigationController?.navigationBar.titleTextAttributes = textAttributes
+                displayMode.image = UIImage(systemName: "powersleep")
             }
         } else {
             // Fallback on earlier versions
-            print("light")
+            print("Cannot enable dark mode")
         }
     }
     
@@ -47,7 +50,6 @@ class MovieController: UITableViewController {
         tableView.estimatedRowHeight = 500
         activityIndicatorView = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
         tableView.backgroundView = activityIndicatorView
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -172,18 +174,18 @@ class MovieController: UITableViewController {
                 .transition(.fade(0.2)),
                 .cacheOriginalImage,
             ]
-//            , completionHandler:
-//                {
-//                    result in
-//                    switch result {
-//                    case .success(let value):
-//                        print("Task done for: \(value.source.url?.absoluteString ?? "")")
-//                        print(value)
-//                        print(value.cacheType)
-//                    case .failure(let error):
-//                        print("Job failed: \(error.localizedDescription)")
-//                    }
-//                }
+            //            , completionHandler:
+            //                {
+            //                    result in
+            //                    switch result {
+            //                    case .success(let value):
+            //                        print("Task done for: \(value.source.url?.absoluteString ?? "")")
+            //                        print(value)
+            //                        print(value.cacheType)
+            //                    case .failure(let error):
+            //                        print("Job failed: \(error.localizedDescription)")
+            //                    }
+            //                }
         )
     }
 }

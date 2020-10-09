@@ -347,13 +347,16 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Movies" id="Oag-i9-AMQ">
-                        <barButtonItem key="rightBarButtonItem" title="Item" image="powersleep" catalog="system" style="done" id="ZTz-Iz-pO7">
+                        <barButtonItem key="rightBarButtonItem" title="Dark Mode" image="powersleep" catalog="system" style="done" id="ZTz-Iz-pO7">
                             <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
                                 <action selector="switchMode:" destination="tYv-iV-2iU" id="8YX-eW-Ybj"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="displayMode" destination="ZTz-Iz-pO7" id="MnH-h4-0nJ"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RBC-zu-aes" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
