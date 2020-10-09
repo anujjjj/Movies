@@ -43,8 +43,11 @@ class MovieController: UITableViewController {
         super.viewDidLoad()
         print("View Loaded")
         //        fetchMovies()
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.estimatedRowHeight = 500
         activityIndicatorView = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
         tableView.backgroundView = activityIndicatorView
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -98,7 +101,7 @@ class MovieController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieItem2", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieItem3", for: indexPath)
         let movie = movies[indexPath.row]
         
         configureCell(for: cell, with: movie,at: indexPath)
@@ -140,9 +143,11 @@ class MovieController: UITableViewController {
         movieCell.overview.text = movie.overview
         if expandedIndexSet.contains(indexPath.row) {
             movieCell.overview.numberOfLines = 0
+            movieCell.title.numberOfLines = 0
             movieCell.overview.adjustsFontSizeToFitWidth = true
         } else {
             movieCell.overview.numberOfLines = 1
+            movieCell.title.numberOfLines = 2
             movieCell.overview.adjustsFontSizeToFitWidth = false
         }
     }
