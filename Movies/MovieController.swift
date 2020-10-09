@@ -98,7 +98,7 @@ class MovieController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieItem", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieItem2", for: indexPath)
         let movie = movies[indexPath.row]
         
         configureCell(for: cell, with: movie,at: indexPath)
@@ -112,8 +112,10 @@ class MovieController: UITableViewController {
     
     private func toggleExpandedIndexSet(at indexPath: IndexPath) {
         if expandedIndexSet.contains(indexPath.row) {
+            print("Cell \(indexPath.row) contracted")
             expandedIndexSet.remove(indexPath.row)
         } else {
+            print("Cell \(indexPath.row) expanded")
             expandedIndexSet.insert(indexPath.row)
         }
     }
@@ -151,31 +153,32 @@ class MovieController: UITableViewController {
         }
         //        let processor = DownsamplingImageProcessor(size: movieCell.poster.sizeThatFits(CGSize(width: 180,height: 130)))
         //            |> RoundCornerImageProcessor(cornerRadius: 10)
+        //        let processor = DownsamplingImageProcessor(size: movieCell.poster.intrinsicContentSize)
+        //            |> RoundCornerImageProcessor(cornerRadius: 10)
         let processor = DownsamplingImageProcessor(size: movieCell.poster.bounds.size)
             |> RoundCornerImageProcessor(cornerRadius: 10)
-//        let processor = DownsamplingImageProcessor(size: movieCell.poster.intrinsicContentSize)
-//            |> RoundCornerImageProcessor(cornerRadius: 10)
         movieCell.poster.kf.indicatorType = .activity
         movieCell.poster.kf.setImage(
             with: url,
-            //            placeholder: UIImage(named: "movieImage"),
             options: [
                 .onFailureImage(UIImage(named: "movieImage")),
                 .processor(processor),
                 .scaleFactor(UIScreen.main.scale),
                 .transition(.fade(0.2)),
                 .cacheOriginalImage,
-            ], completionHandler:
-                {
-                    result in
-                    switch result {
-                    case .success(let value):
-                        print("Task done for: \(value.source.url?.absoluteString ?? "")")
-                        //                        print(value)
-                        print(value.cacheType)
-                    case .failure(let error):
-                        print("Job failed: \(error.localizedDescription)")
-                    }
-                })
+            ]
+//            , completionHandler:
+//                {
+//                    result in
+//                    switch result {
+//                    case .success(let value):
+//                        print("Task done for: \(value.source.url?.absoluteString ?? "")")
+//                        print(value)
+//                        print(value.cacheType)
+//                    case .failure(let error):
+//                        print("Job failed: \(error.localizedDescription)")
+//                    }
+//                }
+        )
     }
 }
