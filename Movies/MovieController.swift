@@ -16,8 +16,8 @@ class MovieController: UITableViewController {
     var expandedIndexSet: IndexSet = []
     
     required init?(coder: NSCoder) {
-        //        movies = MovieCellCreator().movies
-        //        print(movies)
+        //                movies = MovieCellCreator().movies
+        //                print(movies)
         super.init(coder: coder)
     }
     
@@ -42,7 +42,7 @@ class MovieController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("View Loaded")
-//        fetchMovies()
+        //        fetchMovies()
         activityIndicatorView = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
         tableView.backgroundView = activityIndicatorView
     }
@@ -65,9 +65,9 @@ class MovieController: UITableViewController {
             guard let httpResponse = response as? HTTPURLResponse,
                   (200..<300).contains(httpResponse.statusCode),
                   let data = data else {
-                fatalError()
+                fatalError("Could Not load data")
             }
-//            sleep(2)
+            //            sleep(2)
             let decoder = JSONDecoder()
             guard let response = try? decoder.decode(MediaResponse.self, from: data) else {
                 return
@@ -102,22 +102,14 @@ class MovieController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let cell = tableView.cellForRow(at: indexPath) {
-            let movie = movies[indexPath.row]
-            toggleOverviewNumberOfLines(for: cell, with: movie, at: indexPath)
-            tableView.reloadRows(at: [indexPath], with: .automatic)
-        }
+        toggleExpandedIndexSet(at: indexPath)
+        tableView.reloadRows(at: [indexPath], with: .automatic)
     }
     
-    private func toggleOverviewNumberOfLines(for cell: UITableViewCell, with movie: MovieItem, at indexPath: IndexPath) {
-        guard let movieCell = cell as? MovieCell else {
-            return
-        }
+    private func toggleExpandedIndexSet(at indexPath: IndexPath) {
         if expandedIndexSet.contains(indexPath.row) {
-            movieCell.overview.numberOfLines = 1
             expandedIndexSet.remove(indexPath.row)
         } else {
-            movieCell.overview.numberOfLines = 0
             expandedIndexSet.insert(indexPath.row)
         }
     }
@@ -142,18 +134,16 @@ class MovieController: UITableViewController {
     
     private func configureImage(for movieCell: MovieCell, with movie: MovieItem) {
         guard let url = URL(string: "https://image.tmdb.org/t/p/original" + movie.posterPath) else {
-            fatalError()
+            fatalError("Could not parse url")
         }
-        print(movie.posterPath)
-        print(url)
-//        let processor = DownsamplingImageProcessor(size: movieCell.poster.sizeThatFits(CGSize(width: 30,height: 45)))
-//            |> RoundCornerImageProcessor(cornerRadius: 20)
+        //        let processor = DownsamplingImageProcessor(size: movieCell.poster.sizeThatFits(CGSize(width: 60,height: 90)))
+        //            |> RoundCornerImageProcessor(cornerRadius: 10)
         let processor = DownsamplingImageProcessor(size: movieCell.poster.bounds.size)
             |> RoundCornerImageProcessor(cornerRadius: 10)
         movieCell.poster.kf.indicatorType = .activity
         movieCell.poster.kf.setImage(
             with: url,
-//            placeholder: UIImage(named: "movieImage"),
+            //            placeholder: UIImage(named: "movieImage"),
             options: [
                 .onFailureImage(UIImage(named: "movieImage")),
                 .processor(processor),
@@ -165,8 +155,9 @@ class MovieController: UITableViewController {
                     result in
                     switch result {
                     case .success(let value):
-                        print(value)
                         print("Task done for: \(value.source.url?.absoluteString ?? "")")
+                        //                        print(value)
+                        print(value.cacheType)
                     case .failure(let error):
                         print("Job failed: \(error.localizedDescription)")
                     }
