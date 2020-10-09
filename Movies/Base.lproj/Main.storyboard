@@ -265,8 +265,7 @@
                                                                 <accessibilityTraits key="traits" image="YES" notEnabled="YES"/>
                                                             </accessibility>
                                                             <constraints>
-                                                                <constraint firstAttribute="width" constant="180" id="6aV-zu-dhx"/>
-                                                                <constraint firstAttribute="height" constant="130" id="DKy-1O-GtT"/>
+                                                                <constraint firstAttribute="width" secondItem="F6O-3F-KWR" secondAttribute="height" multiplier="183:130" id="J9O-sr-8vD"/>
                                                             </constraints>
                                                             <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
                                                         </imageView>
