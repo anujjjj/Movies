@@ -56,8 +56,12 @@ class MovieController: UITableViewController {
         }
     }
     
-    func fetchMovies() {
-        guard let url =  URL(string:"https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=8eac22f4c24d01c480e4d99fef2edfc3") else {
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
+    func fetchMovies(for page: Int = 1) {
+        guard let url =  URL(string:"https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=8eac22f4c24d01c480e4d99fef2edfc3&page=" + String(page)) else {
             return
         }
         
@@ -77,7 +81,7 @@ class MovieController: UITableViewController {
             print("Total Results \(mvs.count) ")
             print(mvs[0].title)
             DispatchQueue.main.async {
-                self.movies = response.results
+                self.movies.append(contentsOf: response.results)
                 self.tableView.reloadData()
                 self.activityIndicatorView.stopAnimating()
                 self.tableView.separatorStyle = .singleLine
@@ -114,6 +118,15 @@ class MovieController: UITableViewController {
         }
     }
     
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == movies.count - 1 {
+            print("Last cell displayed")
+            print(indexPath.row)
+            let page = Int((indexPath.row + 1) / 20) + 1
+            fetchMovies(for: page)
+        }
+    }
+    
     private func configureCell(for cell: UITableViewCell, with movie: MovieItem,at indexPath: IndexPath) {
         guard let movieCell = cell as? MovieCell else {
             return
@@ -136,10 +149,12 @@ class MovieController: UITableViewController {
         guard let url = URL(string: "https://image.tmdb.org/t/p/original" + movie.posterPath) else {
             fatalError("Could not parse url")
         }
-        //        let processor = DownsamplingImageProcessor(size: movieCell.poster.sizeThatFits(CGSize(width: 60,height: 90)))
+        //        let processor = DownsamplingImageProcessor(size: movieCell.poster.sizeThatFits(CGSize(width: 180,height: 130)))
         //            |> RoundCornerImageProcessor(cornerRadius: 10)
         let processor = DownsamplingImageProcessor(size: movieCell.poster.bounds.size)
             |> RoundCornerImageProcessor(cornerRadius: 10)
+//        let processor = DownsamplingImageProcessor(size: movieCell.poster.intrinsicContentSize)
+//            |> RoundCornerImageProcessor(cornerRadius: 10)
         movieCell.poster.kf.indicatorType = .activity
         movieCell.poster.kf.setImage(
             with: url,
