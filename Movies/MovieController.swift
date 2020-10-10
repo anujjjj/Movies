@@ -78,14 +78,14 @@ class MovieController: UIViewController {
     private func createFloatingButton() {
         goToTopButton = UIButton(type: .custom)
         goToTopButton?.translatesAutoresizingMaskIntoConstraints = false
-        constrainFloatingButtonToWindow()
+        constrainGoToTopButtonToWindow()
         goToTopButton?.layer.cornerRadius = 30
         goToTopButton?.layer.masksToBounds = true
         goToTopButton?.setImage(UIImage(named: "top"), for: .normal)
         goToTopButton?.addTarget(self, action: #selector(scrollToTop(_:)), for: .touchUpInside)
     }
     
-    private func constrainFloatingButtonToWindow() {
+    private func constrainGoToTopButtonToWindow() {
         DispatchQueue.main.async {
             guard let keyWindow = UIApplication.shared.windows.filter({$0.isKeyWindow}).first,
                   let floatingButton = self.goToTopButton else { return }
