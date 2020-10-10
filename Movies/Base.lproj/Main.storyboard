@@ -350,7 +350,7 @@
                         <barButtonItem key="rightBarButtonItem" title="Dark Mode" image="powersleep" catalog="system" style="done" id="ZTz-Iz-pO7">
                             <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
-                                <action selector="switchMode:" destination="tYv-iV-2iU" id="8YX-eW-Ybj"/>
+                                <action selector="switchDisplayMode:" destination="tYv-iV-2iU" id="8YX-eW-Ybj"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

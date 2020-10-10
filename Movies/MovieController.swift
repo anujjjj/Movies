@@ -10,12 +10,12 @@ import UIKit
 import Kingfisher
 
 class MovieController: UIViewController {
-    private var floatingButton: UIButton?
+    private var goToTopButton: UIButton?
     @IBOutlet var tableView: UITableView!
     @IBOutlet weak var displayMode: UIBarButtonItem!
     var activityIndicatorView: UIActivityIndicatorView!
     
-    private enum Constants {
+    private enum goToTopButtonConstants {
         static let trailingValue: CGFloat = 15.0
         static let leadingValue: CGFloat = 15.0
         static let buttonHeight: CGFloat = 55.0
@@ -31,7 +31,7 @@ class MovieController: UIViewController {
         super.init(coder: coder)
     }
     
-    @IBAction func switchMode(_ sender: Any) {
+    @IBAction func switchDisplayMode(_ sender: Any) {
         if #available(iOS 13.0, *) {
             if overrideUserInterfaceStyle != .dark {
                 overrideUserInterfaceStyle = .dark
@@ -76,28 +76,28 @@ class MovieController: UIViewController {
     }
     
     private func createFloatingButton() {
-        floatingButton = UIButton(type: .custom)
-        floatingButton?.translatesAutoresizingMaskIntoConstraints = false
+        goToTopButton = UIButton(type: .custom)
+        goToTopButton?.translatesAutoresizingMaskIntoConstraints = false
         constrainFloatingButtonToWindow()
-        floatingButton?.layer.cornerRadius = 30
-        floatingButton?.layer.masksToBounds = true
-        floatingButton?.setImage(UIImage(named: "top"), for: .normal)
-        floatingButton?.addTarget(self, action: #selector(scrollToTop(_:)), for: .touchUpInside)
+        goToTopButton?.layer.cornerRadius = 30
+        goToTopButton?.layer.masksToBounds = true
+        goToTopButton?.setImage(UIImage(named: "top"), for: .normal)
+        goToTopButton?.addTarget(self, action: #selector(scrollToTop(_:)), for: .touchUpInside)
     }
     
     private func constrainFloatingButtonToWindow() {
         DispatchQueue.main.async {
             guard let keyWindow = UIApplication.shared.windows.filter({$0.isKeyWindow}).first,
-                  let floatingButton = self.floatingButton else { return }
+                  let floatingButton = self.goToTopButton else { return }
             keyWindow.addSubview(floatingButton)
             keyWindow.trailingAnchor.constraint(equalTo: floatingButton.trailingAnchor,
-                                                constant: Constants.trailingValue).isActive = true
+                                                constant: goToTopButtonConstants.trailingValue).isActive = true
             keyWindow.bottomAnchor.constraint(equalTo: floatingButton.bottomAnchor,
-                                              constant: Constants.leadingValue).isActive = true
+                                              constant: goToTopButtonConstants.leadingValue).isActive = true
             floatingButton.widthAnchor.constraint(equalToConstant:
-                                                    Constants.buttonWidth).isActive = true
+                                                    goToTopButtonConstants.buttonWidth).isActive = true
             floatingButton.heightAnchor.constraint(equalToConstant:
-                                                    Constants.buttonHeight).isActive = true
+                                                    goToTopButtonConstants.buttonHeight).isActive = true
         }
     }
     
