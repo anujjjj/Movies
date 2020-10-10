@@ -8,8 +8,14 @@
 import Foundation
 import UIKit
 import Kingfisher
+import CoreData
 
 class MovieController: UIViewController {
+    
+    private let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    private var fetchedRC: NSFetchedResultsController<Movie>!
+    
     private var goToTopButton: UIButton?
     @IBOutlet var tableView: UITableView!
     @IBOutlet weak var displayMode: UIBarButtonItem!

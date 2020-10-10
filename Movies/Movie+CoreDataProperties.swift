@@ -17,10 +17,10 @@ extension Movie {
     }
 
     @NSManaged public var id: Int64
-    @NSManaged public var totalVotes: Int64
-    @NSManaged public var title: String?
+    @NSManaged public var overview: String?
     @NSManaged public var posterPath: String?
     @NSManaged public var rating: Double
-    @NSManaged public var overview: String?
+    @NSManaged public var title: String?
+    @NSManaged public var totalVotes: Int64
 
 }
