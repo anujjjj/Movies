@@ -88,15 +88,15 @@ class MovieController: UIViewController {
     private func constrainGoToTopButtonToWindow() {
         DispatchQueue.main.async {
             guard let keyWindow = UIApplication.shared.windows.filter({$0.isKeyWindow}).first,
-                  let floatingButton = self.goToTopButton else { return }
-            keyWindow.addSubview(floatingButton)
-            keyWindow.trailingAnchor.constraint(equalTo: floatingButton.trailingAnchor,
+                  let goToTopButton = self.goToTopButton else { return }
+            keyWindow.addSubview(goToTopButton)
+            keyWindow.trailingAnchor.constraint(equalTo: goToTopButton.trailingAnchor,
                                                 constant: goToTopButtonConstants.trailingValue).isActive = true
-            keyWindow.bottomAnchor.constraint(equalTo: floatingButton.bottomAnchor,
+            keyWindow.bottomAnchor.constraint(equalTo: goToTopButton.bottomAnchor,
                                               constant: goToTopButtonConstants.leadingValue).isActive = true
-            floatingButton.widthAnchor.constraint(equalToConstant:
+            goToTopButton.widthAnchor.constraint(equalToConstant:
                                                     goToTopButtonConstants.buttonWidth).isActive = true
-            floatingButton.heightAnchor.constraint(equalToConstant:
+            goToTopButton.heightAnchor.constraint(equalToConstant:
                                                     goToTopButtonConstants.buttonHeight).isActive = true
         }
     }
