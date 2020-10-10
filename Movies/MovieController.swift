@@ -10,9 +10,18 @@ import UIKit
 import Kingfisher
 
 class MovieController: UIViewController {
+    private var floatingButton: UIButton?
     @IBOutlet var tableView: UITableView!
     @IBOutlet weak var displayMode: UIBarButtonItem!
     var activityIndicatorView: UIActivityIndicatorView!
+    
+    private enum Constants {
+        static let trailingValue: CGFloat = 15.0
+        static let leadingValue: CGFloat = 15.0
+        static let buttonHeight: CGFloat = 55.0
+        static let buttonWidth: CGFloat = 55.0
+    }
+    
     public var movies: [MovieItem] = []
     var expandedIndexSet: IndexSet = []
     
@@ -50,6 +59,7 @@ class MovieController: UIViewController {
         tableView.estimatedRowHeight = 500
         activityIndicatorView = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
         tableView.backgroundView = activityIndicatorView
+        createFloatingButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -65,6 +75,36 @@ class MovieController: UIViewController {
         super.didReceiveMemoryWarning()
     }
     
+    private func createFloatingButton() {
+        floatingButton = UIButton(type: .custom)
+        floatingButton?.translatesAutoresizingMaskIntoConstraints = false
+        constrainFloatingButtonToWindow()
+        floatingButton?.layer.cornerRadius = 30
+        floatingButton?.layer.masksToBounds = true
+        floatingButton?.setImage(UIImage(named: "top"), for: .normal)
+        floatingButton?.addTarget(self, action: #selector(scrollToTop(_:)), for: .touchUpInside)
+    }
+    
+    private func constrainFloatingButtonToWindow() {
+        DispatchQueue.main.async {
+            guard let keyWindow = UIApplication.shared.windows.filter({$0.isKeyWindow}).first,
+                  let floatingButton = self.floatingButton else { return }
+            keyWindow.addSubview(floatingButton)
+            keyWindow.trailingAnchor.constraint(equalTo: floatingButton.trailingAnchor,
+                                                constant: Constants.trailingValue).isActive = true
+            keyWindow.bottomAnchor.constraint(equalTo: floatingButton.bottomAnchor,
+                                              constant: Constants.leadingValue).isActive = true
+            floatingButton.widthAnchor.constraint(equalToConstant:
+                                                    Constants.buttonWidth).isActive = true
+            floatingButton.heightAnchor.constraint(equalToConstant:
+                                                    Constants.buttonHeight).isActive = true
+        }
+    }
+    
+    @IBAction private func scrollToTop(_ sender: Any) {
+        tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
+    }
+    
     func fetchMovies(for page: Int = 1) {
         guard let url =  URL(string:"https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=8eac22f4c24d01c480e4d99fef2edfc3&page=" + String(page)) else {
             return
@@ -76,7 +116,7 @@ class MovieController: UIViewController {
                   let data = data else {
                 fatalError("Could Not load data")
             }
-            //            sleep(2)
+            //                        sleep(2)
             let decoder = JSONDecoder()
             guard let response = try? decoder.decode(MediaResponse.self, from: data) else {
                 return
