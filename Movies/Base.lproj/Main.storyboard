@@ -356,6 +356,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="displayMode" destination="ZTz-Iz-pO7" id="MnH-h4-0nJ"/>
+                        <outlet property="tableView" destination="2hp-02-4fG" id="hY8-D8-Em9"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RBC-zu-aes" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

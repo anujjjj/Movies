@@ -9,8 +9,8 @@ import Foundation
 import UIKit
 import Kingfisher
 
-class MovieController: UITableViewController {
-    
+class MovieController: UIViewController {
+    @IBOutlet var tableView: UITableView!
     @IBOutlet weak var displayMode: UIBarButtonItem!
     var activityIndicatorView: UIActivityIndicatorView!
     public var movies: [MovieItem] = []
@@ -94,46 +94,6 @@ class MovieController: UITableViewController {
         }.resume()
     }
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return movies.count
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieItem3", for: indexPath)
-        let movie = movies[indexPath.row]
-        
-        configureCell(for: cell, with: movie,at: indexPath)
-        return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        toggleExpandedIndexSet(at: indexPath)
-        tableView.reloadRows(at: [indexPath], with: .automatic)
-    }
-    
-    private func toggleExpandedIndexSet(at indexPath: IndexPath) {
-        if expandedIndexSet.contains(indexPath.row) {
-            print("Cell \(indexPath.row) contracted")
-            expandedIndexSet.remove(indexPath.row)
-        } else {
-            print("Cell \(indexPath.row) expanded")
-            expandedIndexSet.insert(indexPath.row)
-        }
-    }
-    
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row == movies.count - 1 {
-            print("Last cell displayed")
-            print(indexPath.row)
-            let page = Int((indexPath.row + 1) / 20) + 1
-            fetchMovies(for: page)
-        }
-    }
-    
     private func configureCell(for cell: UITableViewCell, with movie: MovieItem,at indexPath: IndexPath) {
         guard let movieCell = cell as? MovieCell else {
             return
@@ -187,5 +147,50 @@ class MovieController: UITableViewController {
             //                    }
             //                }
         )
+    }
+}
+
+extension MovieController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieItem3", for: indexPath)
+        let movie = movies[indexPath.row]
+        
+        configureCell(for: cell, with: movie,at: indexPath)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == movies.count - 1 {
+            print("Last cell displayed")
+            print(indexPath.row)
+            let page = Int((indexPath.row + 1) / 20) + 1
+            fetchMovies(for: page)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        toggleExpandedIndexSet(at: indexPath)
+        tableView.reloadRows(at: [indexPath], with: .automatic)
+    }
+    
+    private func toggleExpandedIndexSet(at indexPath: IndexPath) {
+        if expandedIndexSet.contains(indexPath.row) {
+            print("Cell \(indexPath.row) contracted")
+            expandedIndexSet.remove(indexPath.row)
+        } else {
+            print("Cell \(indexPath.row) expanded")
+            expandedIndexSet.insert(indexPath.row)
+        }
+    }
+}
+
+extension MovieController: UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return movies.count
     }
 }
