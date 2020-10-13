@@ -8,12 +8,12 @@
 import Foundation
 
 class MovieItem: NSObject, Codable, Identifiable {
-    let id: Int
-    let totalVotes: Int
-    let rating: Double
-    let title: String
-    let posterPath : String
-    let overview: String
+    var id: Int
+    var totalVotes: Int
+    var rating: Double
+    var title: String
+    var posterPath : String
+    var overview: String
     
     override init() {
         id = 123

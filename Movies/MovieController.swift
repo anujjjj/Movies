@@ -9,6 +9,7 @@ import Foundation
 import UIKit
 import Kingfisher
 import CoreData
+import Network
 
 class MovieController: UIViewController {
     
@@ -74,6 +75,7 @@ class MovieController: UIViewController {
             activityIndicatorView.startAnimating()
             tableView.separatorStyle = .none
             fetchMovies()
+            refresh()
         }
     }
     
@@ -111,33 +113,92 @@ class MovieController: UIViewController {
         tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
     }
     
+    private func saveMoviesToCoreData(_ movies: [MovieItem]) {
+        for movie in movies {
+            let movieModel = Movie(entity: Movie.entity(), insertInto: self.context)
+            movieModel.id = Int64(movie.id)
+            movieModel.title = movie.title
+            movieModel.overview = movie.overview
+            movieModel.posterPath = movie.posterPath
+            movieModel.rating = movie.rating
+        }
+        do {
+            try context.save()
+            print("Success")
+        } catch {
+            print("Error saving: \(error)")
+        }
+    }
+    
+    private func refresh() {
+        let request = Movie.fetchRequest() as NSFetchRequest<Movie>
+        do {
+            request.sortDescriptors = [NSSortDescriptor(key: #keyPath(Movie.rating), ascending: false)]
+            fetchedRC = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+            try fetchedRC.performFetch()
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+    }
+    
+    private func loadFromCoreData() {
+        guard let movieModels = fetchedRC.fetchedObjects else {
+            return
+        }
+        for movieModel in  movieModels {
+            let movie = MovieItem()
+            movie.id = Int(movieModel.id)
+            movie.title = movieModel.title ?? ""
+            movie.overview = movieModel.overview ?? ""
+            movie.posterPath = movieModel.posterPath ?? ""
+            movie.rating = movieModel.rating
+            movies.append(movie)
+        }
+    }
+    
     func fetchMovies(for page: Int = 1) {
         guard let url =  URL(string:"https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=8eac22f4c24d01c480e4d99fef2edfc3&page=" + String(page)) else {
             return
         }
         
         URLSession.shared.dataTask(with: url) { data, response, taskError in
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200..<300).contains(httpResponse.statusCode),
-                  let data = data else {
-                fatalError("Could Not load data")
+            if let httpResponse = response as? HTTPURLResponse,
+               (200..<300).contains(httpResponse.statusCode),
+               let data = data {
+                //                        sleep(2)
+                let decoder = JSONDecoder()
+                guard let response = try? decoder.decode(MediaResponse.self, from: data) else {
+                    return
+                }
+                print("Response")
+                let mvs = response.results
+                print("Total Results \(mvs.count) ")
+                print(mvs[0].title)
+                
+                self.saveMoviesToCoreData(response.results)
+                DispatchQueue.main.async {
+                    self.movies.append(contentsOf: response.results)
+                    self.tableView.reloadData()
+                    self.activityIndicatorView.stopAnimating()
+                    self.tableView.separatorStyle = .singleLine
+                }
             }
-            //                        sleep(2)
-            let decoder = JSONDecoder()
-            guard let response = try? decoder.decode(MediaResponse.self, from: data) else {
-                return
+            else {
+                print("Could not load data")
+                
+                self.loadFromCoreData()
+                
+                DispatchQueue.main.async {
+//                    self.movies.append(contentsOf: response.results)
+                    self.tableView.reloadData()
+                    self.activityIndicatorView.stopAnimating()
+                    self.tableView.separatorStyle = .singleLine
+                }
+
             }
-            print("Response")
-            let mvs = response.results
-            print("Total Results \(mvs.count) ")
-            print(mvs[0].title)
-            DispatchQueue.main.async {
-                self.movies.append(contentsOf: response.results)
-                self.tableView.reloadData()
-                self.activityIndicatorView.stopAnimating()
-                self.tableView.separatorStyle = .singleLine
-            }
+            
         }.resume()
+        
     }
     
     private func configureCell(for cell: UITableViewCell, with movie: MovieItem,at indexPath: IndexPath) {
@@ -200,13 +261,21 @@ extension MovieController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieItem3", for: indexPath)
-        let movie = movies[indexPath.row]
+//        let movie = movies[indexPath.row]
+        let movieModel = fetchedRC.object(at: indexPath)
+        let movie = MovieItem()
+        movie.id = Int(movieModel.id)
+        movie.title = movieModel.title ?? ""
+        movie.overview = movieModel.overview ?? ""
+        movie.posterPath = movieModel.posterPath ?? ""
+        movie.rating = movieModel.rating
         
         configureCell(for: cell, with: movie,at: indexPath)
         return cell
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+//        if indexPath.row == fetchedRC.fetchedObjects?.count ?? 1 - 1 {
         if indexPath.row == movies.count - 1 {
             print("Last cell displayed")
             print(indexPath.row)
@@ -234,9 +303,14 @@ extension MovieController: UITableViewDelegate {
 extension MovieController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
+//        fetchedRC.sections?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return movies.count
+//        guard let sections = fetchedRC.sections, let objs = sections[section].objects else {
+//            return 0
+//        }
+//        return objs.count
     }
 }
