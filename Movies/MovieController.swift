@@ -24,6 +24,7 @@ class MovieController: UIViewController {
     
     public var movies: [MovieItem] = []
     var expandedIndexSet: IndexSet = []
+    var expandedIndex: Int?
     
     required init?(coder: NSCoder) {
         //                movies = MovieCellCreator().movies
@@ -116,7 +117,7 @@ class MovieController: UIViewController {
                   let data = data else {
                 fatalError("Could Not load data")
             }
-            //                        sleep(2)
+                                    sleep(2)
             let decoder = JSONDecoder()
             guard let response = try? decoder.decode(MediaResponse.self, from: data) else {
                 return
@@ -143,7 +144,8 @@ class MovieController: UIViewController {
         movieCell.title.text = movie.title
         movieCell.totalVotes.text = String(movie.totalVotes)
         movieCell.overview.text = movie.overview
-        if expandedIndexSet.contains(indexPath.row) {
+//        if expandedIndexSet.contains(indexPath.row) {
+        if expandedIndex == indexPath.row {
             movieCell.overview.numberOfLines = 0
             movieCell.title.numberOfLines = 0
             movieCell.overview.adjustsFontSizeToFitWidth = true
@@ -210,17 +212,27 @@ extension MovieController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        toggleExpandedIndexSet(at: indexPath)
-        tableView.reloadRows(at: [indexPath], with: .automatic)
+        if let expandedIndex = expandedIndex {
+            let previousExpandedIndexPath = IndexPath(row: expandedIndex, section: 0)
+            toggleExpandedIndexSet(at: indexPath)
+            tableView.reloadRows(at: [previousExpandedIndexPath, indexPath], with: .automatic)
+        } else {
+            toggleExpandedIndexSet(at: indexPath)
+            tableView.reloadRows(at: [ indexPath], with: .automatic)
+        }
+        
     }
     
     private func toggleExpandedIndexSet(at indexPath: IndexPath) {
-        if expandedIndexSet.contains(indexPath.row) {
+//        if expandedIndexSet.contains(indexPath.row) {
+        if expandedIndex == indexPath.row {
             print("Cell \(indexPath.row) contracted")
-            expandedIndexSet.remove(indexPath.row)
+//            expandedIndexSet.remove(indexPath.row)
+            expandedIndex = nil
         } else {
             print("Cell \(indexPath.row) expanded")
-            expandedIndexSet.insert(indexPath.row)
+//            expandedIndexSet.insert(indexPath.row)
+            expandedIndex = indexPath.row
         }
     }
 }
