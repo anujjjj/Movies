@@ -26,8 +26,6 @@ class MovieController: UIViewController {
     var expandedIndex: Int?
     
     required init?(coder: NSCoder) {
-        //                movies = MovieCellCreator().movies
-        //                print(movies)
         super.init(coder: coder)
     }
     
@@ -46,7 +44,6 @@ class MovieController: UIViewController {
                 displayMode.image = UIImage(systemName: "powersleep")
             }
         } else {
-            // Fallback on earlier versions
             print("Cannot enable dark mode")
         }
     }
@@ -116,7 +113,7 @@ class MovieController: UIViewController {
                   let data = data else {
                 fatalError("Could Not load data")
             }
-                                    sleep(2)
+            sleep(2)
             let decoder = JSONDecoder()
             guard let response = try? decoder.decode(MediaResponse.self, from: data) else {
                 return
@@ -158,12 +155,9 @@ class MovieController: UIViewController {
         guard let url = URL(string: "https://image.tmdb.org/t/p/original" + movie.posterPath) else {
             fatalError("Could not parse url")
         }
-        //        let processor = DownsamplingImageProcessor(size: movieCell.poster.sizeThatFits(CGSize(width: 180,height: 130)))
-        //            |> RoundCornerImageProcessor(cornerRadius: 10)
-        //        let processor = DownsamplingImageProcessor(size: movieCell.poster.intrinsicContentSize)
-        //            |> RoundCornerImageProcessor(cornerRadius: 10)
-        let processor = DownsamplingImageProcessor(size: movieCell.poster.bounds.size)
-            |> RoundCornerImageProcessor(cornerRadius: 10)
+//        let processor = DownsamplingImageProcessor(size: movieCell.poster.bounds.size)
+//            |> RoundCornerImageProcessor(cornerRadius: 10)
+        let processor = RoundCornerImageProcessor(cornerRadius: 10)
         movieCell.poster.kf.indicatorType = .activity
         movieCell.poster.kf.setImage(
             with: url,
