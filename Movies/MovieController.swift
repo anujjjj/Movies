@@ -11,6 +11,7 @@ import Kingfisher
 
 class MovieController: UIViewController {
     private var goToTopButton: UIButton?
+    private var placeholderImage: UIImage?
     @IBOutlet var tableView: UITableView!
     @IBOutlet weak var displayMode: UIBarButtonItem!
     var activityIndicatorView: UIActivityIndicatorView!
@@ -56,7 +57,6 @@ class MovieController: UIViewController {
         tableView.estimatedRowHeight = 500
         activityIndicatorView = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
         tableView.backgroundView = activityIndicatorView
-        createFloatingButton()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -70,6 +70,19 @@ class MovieController: UIViewController {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
+    }
+    
+    private func displayPlaceholderImage() {
+        
+        let placeholderImage = UIImage(named: "movieImage")
+        
+        var imageView : UIImageView!
+        imageView = UIImageView(frame: view.bounds)
+        imageView.contentMode =  UIView.ContentMode.scaleAspectFill
+        imageView.clipsToBounds = true
+        imageView.image = placeholderImage
+        imageView.center = view.center
+        view.addSubview(imageView)
     }
     
     private func createFloatingButton() {
@@ -111,9 +124,16 @@ class MovieController: UIViewController {
             guard let httpResponse = response as? HTTPURLResponse,
                   (200..<300).contains(httpResponse.statusCode),
                   let data = data else {
-                fatalError("Could Not load data")
+                print("Could Not load data")
+                DispatchQueue.main.async {
+                    self.activityIndicatorView.stopAnimating()
+                    if self.movies.count == 0 {
+                        self.displayPlaceholderImage()
+                    }
+                }
+                return
             }
-            sleep(2)
+//            sleep(2)
             let decoder = JSONDecoder()
             guard let response = try? decoder.decode(MediaResponse.self, from: data) else {
                 return
@@ -127,6 +147,9 @@ class MovieController: UIViewController {
                 self.tableView.reloadData()
                 self.activityIndicatorView.stopAnimating()
                 self.tableView.separatorStyle = .singleLine
+                if self.movies.count > 0 {
+                    self.createFloatingButton()
+                }
             }
         }.resume()
     }
