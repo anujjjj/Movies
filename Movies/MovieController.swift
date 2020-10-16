@@ -10,6 +10,9 @@ import UIKit
 import Kingfisher
 
 class MovieController: UIViewController {
+    
+    var refreshControl = UIRefreshControl()
+    private weak var imageView : UIImageView?
     private var goToTopButton: UIButton?
     private var placeholderImage: UIImage?
     @IBOutlet var tableView: UITableView!
@@ -25,6 +28,7 @@ class MovieController: UIViewController {
     
     public var movies: [MovieItem] = []
     var expandedIndex: Int?
+    var shouldDisplayPlaceholderImage = false
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -52,6 +56,12 @@ class MovieController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("View Loaded")
+        if #available(iOS 10.0, *) {
+            tableView.refreshControl = refreshControl
+        } else {
+            tableView.addSubview(refreshControl)
+        }
+        refreshControl.addTarget(self, action: #selector(refreshHandler), for: .valueChanged)
         //        fetchMovies()
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 500
@@ -73,16 +83,23 @@ class MovieController: UIViewController {
     }
     
     private func displayPlaceholderImage() {
-        
         let placeholderImage = UIImage(named: "movieImage")
-        
-        var imageView : UIImageView!
-        imageView = UIImageView(frame: view.bounds)
+        let imageView = UIImageView(frame: view.bounds)
         imageView.contentMode =  UIView.ContentMode.scaleAspectFill
         imageView.clipsToBounds = true
         imageView.image = placeholderImage
         imageView.center = view.center
+        imageView.tag = 11
+        self.imageView = imageView
         view.addSubview(imageView)
+    }
+    
+    @objc private func refreshHandler() {
+        print("Refresh Handler")
+        if movies.count == 0 {
+            fetchMovies()
+        }
+        refreshControl.endRefreshing()
     }
     
     private func createFloatingButton() {
@@ -115,7 +132,7 @@ class MovieController: UIViewController {
         tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: true)
     }
     
-    func fetchMovies(for page: Int = 1) {
+    @objc func fetchMovies(for page: Int = 1) {
         guard let url =  URL(string:"https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=8eac22f4c24d01c480e4d99fef2edfc3&page=" + String(page)) else {
             return
         }
@@ -127,8 +144,9 @@ class MovieController: UIViewController {
                 print("Could Not load data")
                 DispatchQueue.main.async {
                     self.activityIndicatorView.stopAnimating()
-                    if self.movies.count == 0 {
+                    if self.movies.count == 0 && !self.shouldDisplayPlaceholderImage{
                         self.displayPlaceholderImage()
+                        self.shouldDisplayPlaceholderImage = true
                     }
                 }
                 return
@@ -143,6 +161,16 @@ class MovieController: UIViewController {
             print("Total Results \(mvs.count) ")
             print(mvs[0].title)
             DispatchQueue.main.async {
+                if self.shouldDisplayPlaceholderImage {
+                    print("remove")
+//                    if let removable = self.view.viewWithTag(11){
+//                        print("removing view")
+//                        removable.removeFromSuperview()
+//                    }
+                    self.imageView?.removeFromSuperview()
+                    self.imageView = nil;
+                    self.shouldDisplayPlaceholderImage = false
+                }
                 self.movies.append(contentsOf: response.results)
                 self.tableView.reloadData()
                 self.activityIndicatorView.stopAnimating()
@@ -235,7 +263,7 @@ extension MovieController: UITableViewDelegate {
             toggleExpandedIndexSet(at: indexPath)
             tableView.reloadRows(at: [ indexPath], with: .automatic)
         }
-        
+            
     }
     
     private func toggleExpandedIndexSet(at indexPath: IndexPath) {
