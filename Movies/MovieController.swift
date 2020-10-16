@@ -56,6 +56,7 @@ class MovieController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("View Loaded")
+        tableView.register(UINib(nibName: "MovieCell2", bundle: nil), forCellReuseIdentifier: "MovieCell2")
         if #available(iOS 10.0, *) {
             tableView.refreshControl = refreshControl
         } else {
@@ -183,7 +184,7 @@ class MovieController: UIViewController {
     }
     
     private func configureCell(for cell: UITableViewCell, with movie: MovieItem,at indexPath: IndexPath) {
-        guard let movieCell = cell as? MovieCell else {
+        guard let movieCell = cell as? MovieCell2 else {
             return
         }
         configureImage(for: movieCell, with: movie)
@@ -202,7 +203,7 @@ class MovieController: UIViewController {
         }
     }
     
-    private func configureImage(for movieCell: MovieCell, with movie: MovieItem) {
+    private func configureImage(for movieCell: MovieCell2, with movie: MovieItem) {
         guard let url = URL(string: "https://image.tmdb.org/t/p/original" + movie.posterPath) else {
             fatalError("Could not parse url")
         }
@@ -238,7 +239,7 @@ class MovieController: UIViewController {
 extension MovieController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieItem3", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell2", for: indexPath)
         let movie = movies[indexPath.row]
         
         configureCell(for: cell, with: movie,at: indexPath)

@@ -9,6 +9,12 @@ import UIKit
 
 class MovieCell2: UITableViewCell {
 
+    @IBOutlet weak var title: UILabel!
+    @IBOutlet weak var poster: UIImageView!
+    @IBOutlet weak var rating: UILabel!
+    @IBOutlet weak var overview: UILabel!
+    @IBOutlet weak var totalVotes: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
