@@ -150,26 +150,18 @@ class MovieController: UIViewController {
                   (200..<300).contains(httpResponse.statusCode),
                   let data = data else {
                 print("Could Not load data ")
-                if -1009 == taskError?._code {
-                    print("No network")
-                    DispatchQueue.main.async {
+                
+                DispatchQueue.main.async {
+                    if -1009 == taskError?._code {
+                        print("No network")
                         self.showNoNetworkAlert()
-                        self.activityIndicatorView.stopAnimating()
-                        if self.movies.count == 0 && !self.shouldDisplayPlaceholderImage{
-                            self.displayPlaceholderImage()
-                            self.shouldDisplayPlaceholderImage = true
-                        }
                     }
-                } else {
-                    DispatchQueue.main.async {
-                        self.activityIndicatorView.stopAnimating()
-                        if self.movies.count == 0 && !self.shouldDisplayPlaceholderImage{
-                            self.displayPlaceholderImage()
-                            self.shouldDisplayPlaceholderImage = true
-                        }
+                    self.activityIndicatorView.stopAnimating()
+                    if self.movies.count == 0 && !self.shouldDisplayPlaceholderImage{
+                        self.displayPlaceholderImage()
+                        self.shouldDisplayPlaceholderImage = true
                     }
                 }
-                
                 return
             }
 //            sleep(2)
