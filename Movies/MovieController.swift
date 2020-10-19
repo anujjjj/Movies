@@ -103,6 +103,13 @@ class MovieController: UIViewController {
         refreshControl.endRefreshing()
     }
     
+    private func showNoNetworkAlert() {
+        let alert = UIAlertController(title: "Could not connect to network", message: "Please check your internet connection", preferredStyle: .alert)
+        let action = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        alert.addAction(action)
+        self.present(alert, animated: true, completion: nil)
+    }
+    
     private func createFloatingButton() {
         goToTopButton = UIButton(type: .custom)
         goToTopButton?.translatesAutoresizingMaskIntoConstraints = false
@@ -144,6 +151,7 @@ class MovieController: UIViewController {
                   let data = data else {
                 print("Could Not load data")
                 DispatchQueue.main.async {
+                    self.showNoNetworkAlert()
                     self.activityIndicatorView.stopAnimating()
                     if self.movies.count == 0 && !self.shouldDisplayPlaceholderImage{
                         self.displayPlaceholderImage()
