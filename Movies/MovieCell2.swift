@@ -26,4 +26,17 @@ class MovieCell2: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    class func heightOfCell(model: MovieItem, width: CGFloat, expanded: Bool) -> CGFloat {
+        if expanded {
+            let font = UIFont.systemFont(ofSize: 17)
+            let textAttributes = [NSAttributedString.Key.font: font]
+            let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
+            let textRect = model.overview.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: textAttributes, context: nil)
+            return 200 + textRect.height - 20.7
+//            return UITableView.automaticDimension
+        } else {
+            return 200
+        }
+    }
+    
 }

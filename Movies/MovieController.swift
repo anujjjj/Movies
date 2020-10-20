@@ -41,8 +41,7 @@ class MovieController: UIViewController {
                 let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
                 navigationController?.navigationBar.titleTextAttributes = textAttributes
                 displayMode.image = UIImage(systemName: "sun.max.fill")
-            }
-            else {
+            } else {
                 overrideUserInterfaceStyle = .light
                 let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.black]
                 navigationController?.navigationBar.titleTextAttributes = textAttributes
@@ -176,10 +175,6 @@ class MovieController: UIViewController {
             DispatchQueue.main.async {
                 if self.shouldDisplayPlaceholderImage {
                     print("remove")
-//                    if let removable = self.view.viewWithTag(11){
-//                        print("removing view")
-//                        removable.removeFromSuperview()
-//                    }
                     self.imageView?.removeFromSuperview()
                     self.imageView = nil;
                     self.shouldDisplayPlaceholderImage = false
@@ -204,23 +199,12 @@ class MovieController: UIViewController {
         movieCell.title.text = movie.title
         movieCell.totalVotes.text = String(movie.totalVotes)
         movieCell.overview.text = movie.overview
-        if expandedIndex == indexPath.row {
-            movieCell.overview.numberOfLines = 0
-            movieCell.title.numberOfLines = 0
-            movieCell.overview.adjustsFontSizeToFitWidth = true
-        } else {
-            movieCell.overview.numberOfLines = 1
-            movieCell.title.numberOfLines = 2
-            movieCell.overview.adjustsFontSizeToFitWidth = false
-        }
     }
     
     private func configureImage(for movieCell: MovieCell2, with movie: MovieItem) {
         guard let url = URL(string: "https://image.tmdb.org/t/p/original" + movie.posterPath) else {
             fatalError("Could not parse url")
         }
-//        let processor = DownsamplingImageProcessor(size: movieCell.poster.bounds.size)
-//            |> RoundCornerImageProcessor(cornerRadius: 10)
         let processor = RoundCornerImageProcessor(cornerRadius: 10)
         movieCell.poster.kf.indicatorType = .activity
         movieCell.poster.kf.setImage(
@@ -232,18 +216,6 @@ class MovieController: UIViewController {
                 .transition(.fade(0.2)),
                 .cacheOriginalImage,
             ]
-            //            , completionHandler:
-            //                {
-            //                    result in
-            //                    switch result {
-            //                    case .success(let value):
-            //                        print("Task done for: \(value.source.url?.absoluteString ?? "")")
-            //                        print(value)
-            //                        print(value.cacheType)
-            //                    case .failure(let error):
-            //                        print("Job failed: \(error.localizedDescription)")
-            //                    }
-            //                }
         )
     }
 }
@@ -253,9 +225,13 @@ extension MovieController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell2", for: indexPath)
         let movie = movies[indexPath.row]
-        
         configureCell(for: cell, with: movie,at: indexPath)
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let movie = movies[indexPath.row]
+        return MovieCell2.heightOfCell(model: movie, width: tableView.frame.size.width, expanded: expandedIndex == indexPath.row)
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -276,7 +252,6 @@ extension MovieController: UITableViewDelegate {
             toggleExpandedIndexSet(at: indexPath)
             tableView.reloadRows(at: [ indexPath], with: .automatic)
         }
-            
     }
     
     private func toggleExpandedIndexSet(at indexPath: IndexPath) {
