@@ -55,7 +55,7 @@ class MovieController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         print("View Loaded")
-        tableView.register(UINib(nibName: "MovieCell2", bundle: nil), forCellReuseIdentifier: "MovieCell2")
+        tableView.register(UINib(nibName: "MovieCell2", bundle: nil), forCellReuseIdentifier: "MovieCell6")
         if #available(iOS 10.0, *) {
             tableView.refreshControl = refreshControl
         } else {
@@ -223,7 +223,7 @@ class MovieController: UIViewController {
 extension MovieController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell2", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell6", for: indexPath)
         let movie = movies[indexPath.row]
         configureCell(for: cell, with: movie,at: indexPath)
         return cell
