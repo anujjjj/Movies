@@ -194,14 +194,23 @@ class MovieController: UIViewController {
         guard let movieCell = cell as? MovieCell2 else {
             return
         }
+        movieCell.poster.bounds.size.width = 120
         configureImage(for: movieCell, with: movie)
         movieCell.rating.text = String(movie.rating)
         movieCell.title.text = movie.title
         movieCell.totalVotes.text = String(movie.totalVotes)
         movieCell.overview.text = movie.overview
+        let screenSize: CGRect = UIScreen.main.bounds
+        for constraint in movieCell.contentView.constraints {
+            if constraint.identifier == "posterDistanceFromSuperview" {
+                print("Update constraint")
+                constraint.constant = screenSize.width * 0.6
+            }
+        }
     }
     
     private func configureImage(for movieCell: MovieCell2, with movie: MovieItem) {
+        
         guard let url = URL(string: "https://image.tmdb.org/t/p/original" + movie.posterPath) else {
             fatalError("Could not parse url")
         }
@@ -226,6 +235,11 @@ extension MovieController: UITableViewDelegate {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell6", for: indexPath)
         let movie = movies[indexPath.row]
         configureCell(for: cell, with: movie,at: indexPath)
+        
+        let movieCell = cell as! MovieCell2
+        self.view.layoutIfNeeded()
+        
+        print("\(String(describing: movieCell.poster.frame.width))")
         return cell
     }
     

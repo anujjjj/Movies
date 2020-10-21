@@ -15,8 +15,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="414" height="176"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="751" placeholderIntrinsicWidth="180" placeholderIntrinsicHeight="130" image="movieImage" translatesAutoresizingMaskIntoConstraints="NO" id="CLb-Nc-0Wi">
-                        <rect key="frame" x="16" y="16" width="180" height="120"/>
+                    <imageView clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="751" placeholderIntrinsicWidth="120" placeholderIntrinsicHeight="120" layoutMarginsFollowReadableWidth="YES" image="movieImage" translatesAutoresizingMaskIntoConstraints="NO" id="CLb-Nc-0Wi">
+                        <rect key="frame" x="16" y="16" width="120" height="120"/>
                         <accessibility key="accessibilityConfiguration">
                             <accessibilityTraits key="traits" image="YES" notEnabled="YES"/>
                         </accessibility>
@@ -32,16 +32,16 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="n2F-aS-Xe0">
-                        <rect key="frame" x="204" y="16" width="194" height="111.5"/>
+                        <rect key="frame" x="144" y="16" width="210" height="86.5"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Movie Title Title Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1pi-IK-Mgv">
-                                <rect key="frame" x="0.0" y="0.0" width="115" height="50.5"/>
+                                <rect key="frame" x="0.0" y="0.0" width="210" height="25.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="21"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="vzS-o9-Rqa">
-                                <rect key="frame" x="0.0" y="60.5" width="86" height="20.5"/>
+                                <rect key="frame" x="0.0" y="35.5" width="86" height="20.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rating :" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="jfb-c4-9hO">
                                         <rect key="frame" x="0.0" y="0.0" width="58" height="20.5"/>
@@ -58,7 +58,7 @@
                                 </subviews>
                             </stackView>
                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="gtK-dY-zD1">
-                                <rect key="frame" x="0.0" y="91" width="142.5" height="20.5"/>
+                                <rect key="frame" x="0.0" y="66" width="142.5" height="20.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Votes : " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="dNV-hO-zsA">
                                         <rect key="frame" x="0.0" y="0.0" width="98" height="20.5"/>
@@ -80,8 +80,8 @@
                 <constraints>
                     <constraint firstItem="CLb-Nc-0Wi" firstAttribute="leading" secondItem="dea-sW-P3b" secondAttribute="leading" constant="16" id="GfO-4Q-Ebe"/>
                     <constraint firstItem="n2F-aS-Xe0" firstAttribute="leading" secondItem="CLb-Nc-0Wi" secondAttribute="trailing" constant="8" id="I0C-7M-hgi"/>
-                    <constraint firstItem="CLb-Nc-0Wi" firstAttribute="width" secondItem="dea-sW-P3b" secondAttribute="width" multiplier="0.434783" id="T0o-g3-r3U"/>
-                    <constraint firstAttribute="trailing" secondItem="n2F-aS-Xe0" secondAttribute="trailing" constant="16" id="cB6-Uc-PWe"/>
+                    <constraint firstAttribute="trailing" secondItem="CLb-Nc-0Wi" secondAttribute="trailing" constant="278" identifier="posterDistanceFromSuperview" id="K6T-AW-Gqd"/>
+                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="n2F-aS-Xe0" secondAttribute="trailing" constant="16" id="cB6-Uc-PWe"/>
                     <constraint firstItem="CLb-Nc-0Wi" firstAttribute="top" secondItem="dea-sW-P3b" secondAttribute="top" constant="16" id="clm-Tg-sbi"/>
                     <constraint firstItem="tPx-SD-zVJ" firstAttribute="leading" secondItem="dea-sW-P3b" secondAttribute="leading" constant="16" id="d6x-Yv-MuF"/>
                     <constraint firstItem="n2F-aS-Xe0" firstAttribute="top" secondItem="dea-sW-P3b" secondAttribute="top" constant="16" id="gQ5-nI-PdR"/>

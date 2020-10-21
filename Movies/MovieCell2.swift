@@ -34,7 +34,6 @@ class MovieCell2: UITableViewCell {
         let constraintRect = CGSize(width: cellWidth, height: .greatestFiniteMagnitude)
         let textRect = model.overview.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: textAttributes, context: nil)
         let numberOfLinesRequired = Int(ceil(textRect.height / lineHeight))
-        print("\(model.title) \(numberOfLinesRequired)")
         var contentHeight = 0.0
         contentHeight += 16
         contentHeight += 120
