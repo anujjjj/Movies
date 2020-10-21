@@ -16,13 +16,13 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="7" translatesAutoresizingMaskIntoConstraints="NO" id="Akd-dc-eEF" userLabel="CSV">
-                        <rect key="frame" x="18" y="5" width="378" height="157.5"/>
+                        <rect key="frame" x="16" y="8" width="382" height="151.5"/>
                         <subviews>
                             <stackView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="top" spacing="12" translatesAutoresizingMaskIntoConstraints="NO" id="tMf-hv-HpP">
-                                <rect key="frame" x="0.0" y="0.0" width="378" height="130"/>
+                                <rect key="frame" x="0.0" y="0.0" width="382" height="131.5"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="751" placeholderIntrinsicWidth="180" placeholderIntrinsicHeight="130" image="movieImage" translatesAutoresizingMaskIntoConstraints="NO" id="O0T-aU-xno">
-                                        <rect key="frame" x="0.0" y="0.0" width="183" height="130"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="185" height="131.5"/>
                                         <accessibility key="accessibilityConfiguration">
                                             <accessibilityTraits key="traits" image="YES" notEnabled="YES"/>
                                         </accessibility>
@@ -32,7 +32,7 @@
                                         <preferredSymbolConfiguration key="preferredSymbolConfiguration" scale="default"/>
                                     </imageView>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="rAN-XJ-dqY">
-                                        <rect key="frame" x="195" y="0.0" width="183" height="111.5"/>
+                                        <rect key="frame" x="197" y="0.0" width="185" height="111.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Movie Title Title Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UXd-Ku-Mjt">
                                                 <rect key="frame" x="0.0" y="0.0" width="115" height="50.5"/>
@@ -79,7 +79,7 @@
                                 </subviews>
                             </stackView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="249" text="Overview Overview Overview Overview " lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="281.33333333333337" translatesAutoresizingMaskIntoConstraints="NO" id="YxD-ZI-bpw">
-                                <rect key="frame" x="0.0" y="137" width="378" height="20.5"/>
+                                <rect key="frame" x="0.0" y="138.5" width="382" height="13"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -88,10 +88,10 @@
                     </stackView>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="Akd-dc-eEF" secondAttribute="bottom" constant="5" id="7bV-jQ-JwJ"/>
-                    <constraint firstAttribute="trailing" secondItem="Akd-dc-eEF" secondAttribute="trailing" constant="18" id="MQG-sB-PWj"/>
-                    <constraint firstItem="Akd-dc-eEF" firstAttribute="leading" secondItem="hIA-Et-CUw" secondAttribute="leading" constant="18" id="dcQ-AH-6eB"/>
-                    <constraint firstItem="Akd-dc-eEF" firstAttribute="top" secondItem="hIA-Et-CUw" secondAttribute="top" constant="5" id="neJ-uE-HTV"/>
+                    <constraint firstAttribute="bottom" secondItem="Akd-dc-eEF" secondAttribute="bottom" constant="8" id="7bV-jQ-JwJ"/>
+                    <constraint firstAttribute="trailing" secondItem="Akd-dc-eEF" secondAttribute="trailing" constant="16" id="MQG-sB-PWj"/>
+                    <constraint firstItem="Akd-dc-eEF" firstAttribute="leading" secondItem="hIA-Et-CUw" secondAttribute="leading" constant="16" id="dcQ-AH-6eB"/>
+                    <constraint firstItem="Akd-dc-eEF" firstAttribute="top" secondItem="hIA-Et-CUw" secondAttribute="top" constant="8" id="neJ-uE-HTV"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

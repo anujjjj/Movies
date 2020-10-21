@@ -27,16 +27,24 @@ class MovieCell2: UITableViewCell {
     }
     
     class func heightOfCell(model: MovieItem, width: CGFloat, expanded: Bool) -> CGFloat {
+        let font = UIFont.systemFont(ofSize: 17)
+        let textAttributes = [NSAttributedString.Key.font: font]
+        let cellWidth = width - 16*2
+        let lineHeight = font.lineHeight
+        let constraintRect = CGSize(width: cellWidth, height: .greatestFiniteMagnitude)
+        let textRect = model.overview.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: textAttributes, context: nil)
+        let numberOfLinesRequired = Int(ceil(textRect.height / lineHeight))
+        
+        var contentHeight = 0.0
+        contentHeight += 8
+        contentHeight += 131.5
+        contentHeight += 7
+        contentHeight += 8
+        
         if expanded {
-            let font = UIFont.systemFont(ofSize: 17)
-            let textAttributes = [NSAttributedString.Key.font: font]
-            let constraintRect = CGSize(width: width, height: .greatestFiniteMagnitude)
-            let textRect = model.overview.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: textAttributes, context: nil)
-            return 200 + textRect.height - 20.7
-//            return UITableView.automaticDimension
+            return CGFloat(contentHeight) + textRect.height
         } else {
-            return 200
+            return CGFloat(contentHeight) + lineHeight * CGFloat(min(2,numberOfLinesRequired))
         }
     }
-    
 }
