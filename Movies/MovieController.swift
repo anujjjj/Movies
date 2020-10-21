@@ -200,13 +200,7 @@ class MovieController: UIViewController {
         movieCell.title.text = movie.title
         movieCell.totalVotes.text = String(movie.totalVotes)
         movieCell.overview.text = movie.overview
-        let screenSize: CGRect = UIScreen.main.bounds
-        for constraint in movieCell.contentView.constraints {
-            if constraint.identifier == "posterDistanceFromSuperview" {
-                print("Update constraint")
-                constraint.constant = screenSize.width * 0.6
-            }
-        }
+        
     }
     
     private func configureImage(for movieCell: MovieCell2, with movie: MovieItem) {
@@ -237,7 +231,7 @@ extension MovieController: UITableViewDelegate {
         configureCell(for: cell, with: movie,at: indexPath)
         
         let movieCell = cell as! MovieCell2
-        self.view.layoutIfNeeded()
+//        self.view.layoutIfNeeded()
         
         print("\(String(describing: movieCell.poster.frame.width))")
         return cell

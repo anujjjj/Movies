@@ -15,9 +15,39 @@ class MovieCell2: UITableViewCell {
     @IBOutlet weak var overview: UILabel!
     @IBOutlet weak var totalVotes: UILabel!
     
+    private var isImageExpanded = false
+    
+    private func getImageConstraintConstant() -> CGFloat {
+        let screenSize: CGRect = UIScreen.main.bounds
+        if(isImageExpanded) {
+            return 16 * 2
+        } else {
+            return screenSize.width * 0.6
+        }
+    }
+    
+    private func updateImageConstraint() {
+        for constraint in self.contentView.constraints {
+            if constraint.identifier == "posterDistanceFromSuperview" {
+                print("Update constraint")
+                constraint.constant = getImageConstraintConstant()
+            }
+        }
+        self.layoutIfNeeded()
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
+        updateImageConstraint()
+        let tap = UITapGestureRecognizer(target: self, action: #selector(bigButtonTapped))
+        poster.addGestureRecognizer(tap)
         // Initialization code
+    }
+    
+    @objc func bigButtonTapped(sender: UITapGestureRecognizer) {
+        isImageExpanded = !isImageExpanded
+        updateImageConstraint()
+        print("bigButtonTapped")
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -47,4 +77,6 @@ class MovieCell2: UITableViewCell {
         }
         return CGFloat(contentHeight)
     }
+    
+    
 }
