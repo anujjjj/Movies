@@ -163,7 +163,7 @@ class MovieController: UIViewController {
                 }
                 return
             }
-//            sleep(2)
+            //            sleep(2)
             let decoder = JSONDecoder()
             guard let response = try? decoder.decode(MediaResponse.self, from: data) else {
                 return
@@ -234,7 +234,7 @@ extension MovieController: UITableViewDelegate {
         
         //        self.view.layoutIfNeeded()
         
-        print("\(String(describing: movieCell.poster.frame.width))")
+//        print("\(String(describing: movieCell.poster.frame.width))")
         return cell
     }
     

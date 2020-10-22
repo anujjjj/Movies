@@ -8,13 +8,14 @@
 import UIKit
 
 class MovieCell2: UITableViewCell {
-
+    
     @IBOutlet weak var title: UILabel!
     @IBOutlet weak var poster: UIImageView!
     @IBOutlet weak var rating: UILabel!
     @IBOutlet weak var overview: UILabel!
     @IBOutlet weak var totalVotes: UILabel!
     
+    @IBOutlet var stackViewTrailing: NSLayoutConstraint!
     private var isPosterExpanded = false
     
     private func getPosterConstraintConstant() -> CGFloat {
@@ -32,6 +33,7 @@ class MovieCell2: UITableViewCell {
     }
     
     private func updateImageConstraint() {
+        setNeedsLayout()
         for constraint in self.contentView.constraints {
             if constraint.identifier == "posterDistanceFromSuperview" {
                 print("Update constraint")
@@ -39,6 +41,15 @@ class MovieCell2: UITableViewCell {
             }
         }
         self.layoutIfNeeded()
+    }
+    
+    private func togggleStackTrailingConstraint() {
+        if isPosterExpanded {
+            NSLayoutConstraint.deactivate([stackViewTrailing])
+        } else {
+            NSLayoutConstraint.activate([stackViewTrailing])
+        }
+//        stackViewTrailing.isActive = !stackViewTrailing.isActive
     }
     
     override func awakeFromNib() {
@@ -51,13 +62,14 @@ class MovieCell2: UITableViewCell {
     
     @objc func posterTapped(sender: UITapGestureRecognizer) {
         isPosterExpanded = !isPosterExpanded
+        togggleStackTrailingConstraint()
         updateImageConstraint()
         print("posterTapped")
     }
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
+        
         // Configure the view for the selected state
     }
     
