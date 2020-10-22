@@ -16,6 +16,8 @@ class MovieCell2: UITableViewCell {
     @IBOutlet weak var totalVotes: UILabel!
     
     @IBOutlet var stackViewTrailing: NSLayoutConstraint!
+    
+//    @IBOutlet var stackViewTrailing: NSLayoutConstraint!
     private var isPosterExpanded = false
     
     private func getPosterConstraintConstant() -> CGFloat {
