@@ -17,7 +17,6 @@ class MovieCell2: UITableViewCell {
     
     @IBOutlet var stackViewTrailing: NSLayoutConstraint!
     
-//    @IBOutlet var stackViewTrailing: NSLayoutConstraint!
     private var isPosterExpanded = false
     
     private func getPosterConstraintConstant() -> CGFloat {
@@ -51,7 +50,6 @@ class MovieCell2: UITableViewCell {
         } else {
             NSLayoutConstraint.activate([stackViewTrailing])
         }
-//        stackViewTrailing.isActive = !stackViewTrailing.isActive
     }
     
     override func awakeFromNib() {
@@ -71,12 +69,11 @@ class MovieCell2: UITableViewCell {
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        
         // Configure the view for the selected state
     }
     
     class func heightOfCell(model: MovieItem, width: CGFloat, expanded: Bool) -> CGFloat {
-        let font = UIFont.systemFont(ofSize: 17)
+        let font = Constants.font
         let textAttributes = [NSAttributedString.Key.font: font]
         let cellWidth = width - 16*2
         let lineHeight = font.lineHeight
@@ -96,6 +93,5 @@ class MovieCell2: UITableViewCell {
         }
         return CGFloat(contentHeight)
     }
-    
     
 }

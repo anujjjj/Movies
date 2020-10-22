@@ -140,7 +140,7 @@ class MovieController: UIViewController {
     }
     
     @objc func fetchMovies(for page: Int = 1) {
-        guard let url =  URL(string:"https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=8eac22f4c24d01c480e4d99fef2edfc3&page=" + String(page)) else {
+        guard let url =  URL(string:Constants.url + String(page)) else {
             return
         }
         
@@ -194,18 +194,16 @@ class MovieController: UIViewController {
         guard let movieCell = cell as? MovieCell2 else {
             return
         }
-        movieCell.poster.bounds.size.width = 120
         configureImage(for: movieCell, with: movie)
         movieCell.rating.text = String(movie.rating)
         movieCell.title.text = movie.title
         movieCell.totalVotes.text = String(movie.totalVotes)
         movieCell.overview.text = movie.overview
-        
     }
     
     private func configureImage(for movieCell: MovieCell2, with movie: MovieItem) {
         
-        guard let url = URL(string: "https://image.tmdb.org/t/p/original" + movie.posterPath) else {
+        guard let url = URL(string: Constants.posterUrl + movie.posterPath) else {
             fatalError("Could not parse url")
         }
         let processor = RoundCornerImageProcessor(cornerRadius: 10)
