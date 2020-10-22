@@ -228,10 +228,11 @@ extension MovieController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell6", for: indexPath)
         let movie = movies[indexPath.row]
+        let movieCell = cell as! MovieCell2
+        movieCell.resetPosterConstraint()
         configureCell(for: cell, with: movie,at: indexPath)
         
-        let movieCell = cell as! MovieCell2
-//        self.view.layoutIfNeeded()
+        //        self.view.layoutIfNeeded()
         
         print("\(String(describing: movieCell.poster.frame.width))")
         return cell

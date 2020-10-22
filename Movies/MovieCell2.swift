@@ -15,22 +15,27 @@ class MovieCell2: UITableViewCell {
     @IBOutlet weak var overview: UILabel!
     @IBOutlet weak var totalVotes: UILabel!
     
-    private var isImageExpanded = false
+    private var isPosterExpanded = false
     
-    private func getImageConstraintConstant() -> CGFloat {
+    private func getPosterConstraintConstant() -> CGFloat {
         let screenSize: CGRect = UIScreen.main.bounds
-        if(isImageExpanded) {
-            return 16 * 2
+        if(isPosterExpanded) {
+            return 16
         } else {
             return screenSize.width * 0.6
         }
+    }
+    
+    func resetPosterConstraint() {
+        isPosterExpanded = false
+        updateImageConstraint()
     }
     
     private func updateImageConstraint() {
         for constraint in self.contentView.constraints {
             if constraint.identifier == "posterDistanceFromSuperview" {
                 print("Update constraint")
-                constraint.constant = getImageConstraintConstant()
+                constraint.constant = getPosterConstraintConstant()
             }
         }
         self.layoutIfNeeded()
@@ -39,15 +44,15 @@ class MovieCell2: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         updateImageConstraint()
-        let tap = UITapGestureRecognizer(target: self, action: #selector(bigButtonTapped))
+        let tap = UITapGestureRecognizer(target: self, action: #selector(posterTapped))
         poster.addGestureRecognizer(tap)
         // Initialization code
     }
     
-    @objc func bigButtonTapped(sender: UITapGestureRecognizer) {
-        isImageExpanded = !isImageExpanded
+    @objc func posterTapped(sender: UITapGestureRecognizer) {
+        isPosterExpanded = !isPosterExpanded
         updateImageConstraint()
-        print("bigButtonTapped")
+        print("posterTapped")
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

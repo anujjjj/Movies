@@ -33,9 +33,9 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="n2F-aS-Xe0">
-                        <rect key="frame" x="144" y="16" width="210" height="86.5"/>
+                        <rect key="frame" x="152" y="16" width="210" height="86.5"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Movie Title Title Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1pi-IK-Mgv">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" layoutMarginsFollowReadableWidth="YES" text="Movie Title Title Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1pi-IK-Mgv">
                                 <rect key="frame" x="0.0" y="0.0" width="210" height="25.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="21"/>
                                 <nil key="textColor"/>
@@ -80,14 +80,15 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="CLb-Nc-0Wi" firstAttribute="leading" secondItem="dea-sW-P3b" secondAttribute="leading" constant="16" id="GfO-4Q-Ebe"/>
-                    <constraint firstItem="n2F-aS-Xe0" firstAttribute="leading" secondItem="CLb-Nc-0Wi" secondAttribute="trailing" constant="8" id="I0C-7M-hgi"/>
+                    <constraint firstItem="n2F-aS-Xe0" firstAttribute="leading" secondItem="CLb-Nc-0Wi" secondAttribute="trailing" constant="16" id="I0C-7M-hgi"/>
                     <constraint firstAttribute="trailing" secondItem="CLb-Nc-0Wi" secondAttribute="trailing" constant="278" identifier="posterDistanceFromSuperview" id="K6T-AW-Gqd"/>
-                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="n2F-aS-Xe0" secondAttribute="trailing" constant="16" id="cB6-Uc-PWe"/>
+                    <constraint firstItem="tPx-SD-zVJ" firstAttribute="top" relation="greaterThanOrEqual" secondItem="n2F-aS-Xe0" secondAttribute="bottom" constant="8" id="RRN-fN-INh"/>
+                    <constraint firstItem="1pi-IK-Mgv" firstAttribute="top" secondItem="CLb-Nc-0Wi" secondAttribute="top" id="X0X-mV-fVH"/>
+                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="n2F-aS-Xe0" secondAttribute="trailing" priority="999" constant="16" id="cB6-Uc-PWe"/>
                     <constraint firstItem="CLb-Nc-0Wi" firstAttribute="top" secondItem="dea-sW-P3b" secondAttribute="top" constant="16" id="clm-Tg-sbi"/>
                     <constraint firstItem="tPx-SD-zVJ" firstAttribute="leading" secondItem="dea-sW-P3b" secondAttribute="leading" constant="16" id="d6x-Yv-MuF"/>
-                    <constraint firstItem="n2F-aS-Xe0" firstAttribute="top" secondItem="dea-sW-P3b" secondAttribute="top" constant="16" id="gQ5-nI-PdR"/>
                     <constraint firstAttribute="trailing" secondItem="tPx-SD-zVJ" secondAttribute="trailing" constant="16" id="krz-Qt-X4W"/>
-                    <constraint firstItem="tPx-SD-zVJ" firstAttribute="top" secondItem="CLb-Nc-0Wi" secondAttribute="bottom" constant="8" id="ocw-3l-QCY"/>
+                    <constraint firstItem="tPx-SD-zVJ" firstAttribute="top" relation="greaterThanOrEqual" secondItem="CLb-Nc-0Wi" secondAttribute="bottom" constant="8" id="ocw-3l-QCY"/>
                     <constraint firstAttribute="bottom" secondItem="tPx-SD-zVJ" secondAttribute="bottom" constant="8" id="qCX-6A-mD5"/>
                 </constraints>
             </tableViewCellContentView>
