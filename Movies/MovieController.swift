@@ -94,6 +94,9 @@ class MovieController: UIViewController {
     @objc private func refreshHandler() {
         if movies.count == 0 {
             fetchMovies()
+        } else {
+            movies = []
+            fetchMovies()
         }
         refreshControl.endRefreshing()
     }

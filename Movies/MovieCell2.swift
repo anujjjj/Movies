@@ -30,6 +30,7 @@ class MovieCell2: UITableViewCell {
     
     func resetPosterConstraint() {
         isPosterExpanded = false
+        togggleStackTrailingConstraint()
         updateImageConstraint()
     }
     
@@ -37,7 +38,6 @@ class MovieCell2: UITableViewCell {
         setNeedsLayout()
         for constraint in self.contentView.constraints {
             if constraint.identifier == "posterDistanceFromSuperview" {
-                print("Update constraint")
                 constraint.constant = getPosterConstraintConstant()
             }
         }
@@ -57,14 +57,12 @@ class MovieCell2: UITableViewCell {
         updateImageConstraint()
         let tap = UITapGestureRecognizer(target: self, action: #selector(posterTapped))
         poster.addGestureRecognizer(tap)
-        // Initialization code
     }
     
     @objc func posterTapped(sender: UITapGestureRecognizer) {
         isPosterExpanded = !isPosterExpanded
         togggleStackTrailingConstraint()
         updateImageConstraint()
-        print("posterTapped")
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
