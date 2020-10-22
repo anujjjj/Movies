@@ -54,7 +54,6 @@ class MovieController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("View Loaded")
         tableView.register(UINib(nibName: "MovieCell2", bundle: nil), forCellReuseIdentifier: "MovieCell6")
         if #available(iOS 10.0, *) {
             tableView.refreshControl = refreshControl
@@ -62,7 +61,6 @@ class MovieController: UIViewController {
             tableView.addSubview(refreshControl)
         }
         refreshControl.addTarget(self, action: #selector(refreshHandler), for: .valueChanged)
-        //        fetchMovies()
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 500
         activityIndicatorView = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
@@ -70,7 +68,6 @@ class MovieController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        print("View Will Appear")
         if(movies.count == 0) {
             activityIndicatorView.startAnimating()
             tableView.separatorStyle = .none
@@ -95,7 +92,6 @@ class MovieController: UIViewController {
     }
     
     @objc private func refreshHandler() {
-        print("Refresh Handler")
         if movies.count == 0 {
             fetchMovies()
         }
@@ -148,11 +144,8 @@ class MovieController: UIViewController {
             guard let httpResponse = response as? HTTPURLResponse,
                   (200..<300).contains(httpResponse.statusCode),
                   let data = data else {
-                print("Could Not load data ")
-                
                 DispatchQueue.main.async {
                     if -1009 == taskError?._code {
-                        print("No network")
                         self.showNoNetworkAlert()
                     }
                     self.activityIndicatorView.stopAnimating()
@@ -163,18 +156,12 @@ class MovieController: UIViewController {
                 }
                 return
             }
-            //            sleep(2)
             let decoder = JSONDecoder()
             guard let response = try? decoder.decode(MediaResponse.self, from: data) else {
                 return
             }
-            print("Response")
-            let mvs = response.results
-            print("Total Results \(mvs.count) ")
-            print(mvs[0].title)
             DispatchQueue.main.async {
                 if self.shouldDisplayPlaceholderImage {
-                    print("remove")
                     self.imageView?.removeFromSuperview()
                     self.imageView = nil;
                     self.shouldDisplayPlaceholderImage = false
@@ -229,10 +216,6 @@ extension MovieController: UITableViewDelegate {
         let movieCell = cell as! MovieCell2
         movieCell.resetPosterConstraint()
         configureCell(for: cell, with: movie,at: indexPath)
-        
-        //        self.view.layoutIfNeeded()
-        
-//        print("\(String(describing: movieCell.poster.frame.width))")
         return cell
     }
     
@@ -243,8 +226,6 @@ extension MovieController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row == movies.count - 1 {
-            print("Last cell displayed")
-            print(indexPath.row)
             let page = Int((indexPath.row + 1) / 20) + 1
             fetchMovies(for: page)
         }
@@ -263,10 +244,8 @@ extension MovieController: UITableViewDelegate {
     
     private func toggleExpandedIndexSet(at indexPath: IndexPath) {
         if expandedIndex == indexPath.row {
-            print("Cell \(indexPath.row) contracted")
             expandedIndex = nil
         } else {
-            print("Cell \(indexPath.row) expanded")
             expandedIndex = indexPath.row
         }
     }
