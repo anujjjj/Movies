@@ -179,37 +179,8 @@ class MovieController: UIViewController {
                 }
             }
         }.resume()
-    }
+    }    
     
-    private func configureCell(for cell: UITableViewCell, with movie: MovieItem,at indexPath: IndexPath) {
-        guard let movieCell = cell as? MovieCell2 else {
-            return
-        }
-        configureImage(for: movieCell, with: movie)
-        movieCell.rating.text = String(movie.rating)
-        movieCell.title.text = movie.title
-        movieCell.totalVotes.text = String(movie.totalVotes)
-        movieCell.overview.text = movie.overview
-    }
-    
-    private func configureImage(for movieCell: MovieCell2, with movie: MovieItem) {
-        
-        guard let url = URL(string: Constants.posterUrl + movie.posterPath) else {
-            fatalError("Could not parse url")
-        }
-        let processor = RoundCornerImageProcessor(cornerRadius: 10)
-        movieCell.poster.kf.indicatorType = .activity
-        movieCell.poster.kf.setImage(
-            with: url,
-            options: [
-                .onFailureImage(UIImage(named: "movieImage")),
-                .processor(processor),
-                .scaleFactor(UIScreen.main.scale),
-                .transition(.fade(0.2)),
-                .cacheOriginalImage,
-            ]
-        )
-    }
 }
 
 extension MovieController: UITableViewDelegate {
@@ -219,7 +190,7 @@ extension MovieController: UITableViewDelegate {
         let movie = movieViewModel.movies[indexPath.row]
         let movieCell = cell as! MovieCell2
         movieCell.resetPosterConstraint()
-        configureCell(for: cell, with: movie,at: indexPath)
+        movieCell.configureCell(for: cell, with: movie,at: indexPath)
         return cell
     }
     

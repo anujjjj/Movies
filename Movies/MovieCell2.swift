@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class MovieCell2: UITableViewCell {
     
@@ -41,9 +42,6 @@ class MovieCell2: UITableViewCell {
                 constraint.constant = getPosterConstraintConstant()
             }
         }
-        UIView.animate(withDuration: 0.5) {
-            self.layoutIfNeeded()
-        }
     }
     
     private func togggleStackTrailingConstraint() {
@@ -65,6 +63,9 @@ class MovieCell2: UITableViewCell {
         isPosterExpanded = !isPosterExpanded
         togggleStackTrailingConstraint()
         updateImageConstraint()
+        UIView.animate(withDuration: 0.5) {
+            self.layoutIfNeeded()
+        }
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -94,4 +95,32 @@ class MovieCell2: UITableViewCell {
         return CGFloat(contentHeight)
     }
     
+    func configureCell(for cell: UITableViewCell, with movie: MovieItem,at indexPath: IndexPath) {
+        guard let movieCell = cell as? MovieCell2 else {
+            return
+        }
+        configureImage(for: movieCell, with: movie)
+        movieCell.rating.text = String(movie.rating)
+        movieCell.title.text = movie.title
+        movieCell.totalVotes.text = String(movie.totalVotes)
+        movieCell.overview.text = movie.overview
+    }
+    
+    func configureImage(for movieCell: MovieCell2, with movie: MovieItem) {
+        guard let url = URL(string: Constants.posterUrl + movie.posterPath) else {
+            fatalError("Could not parse url")
+        }
+        let processor = RoundCornerImageProcessor(cornerRadius: 10)
+        movieCell.poster.kf.indicatorType = .activity
+        movieCell.poster.kf.setImage(
+            with: url,
+            options: [
+                .onFailureImage(UIImage(named: "movieImage")),
+                .processor(processor),
+                .scaleFactor(UIScreen.main.scale),
+                .transition(.fade(0.2)),
+                .cacheOriginalImage,
+            ]
+        )
+    }
 }
