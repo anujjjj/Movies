@@ -41,7 +41,9 @@ class MovieCell2: UITableViewCell {
                 constraint.constant = getPosterConstraintConstant()
             }
         }
-        self.layoutIfNeeded()
+        UIView.animate(withDuration: 0.5) {
+            self.layoutIfNeeded()
+        }
     }
     
     private func togggleStackTrailingConstraint() {

@@ -15,7 +15,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="414" height="198"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="751" placeholderIntrinsicWidth="120" placeholderIntrinsicHeight="120" layoutMarginsFollowReadableWidth="YES" image="movieImage" translatesAutoresizingMaskIntoConstraints="NO" id="CLb-Nc-0Wi">
+                    <imageView clipsSubviews="YES" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="1000" verticalCompressionResistancePriority="751" placeholderIntrinsicWidth="120" placeholderIntrinsicHeight="120" layoutMarginsFollowReadableWidth="YES" image="movieImage" translatesAutoresizingMaskIntoConstraints="NO" id="CLb-Nc-0Wi">
                         <rect key="frame" x="16" y="16" width="120" height="120"/>
                         <accessibility key="accessibilityConfiguration">
                             <accessibilityTraits key="traits" image="YES"/>
@@ -86,7 +86,7 @@
                     <constraint firstItem="tPx-SD-zVJ" firstAttribute="top" relation="greaterThanOrEqual" secondItem="CLb-Nc-0Wi" secondAttribute="bottom" constant="8" id="ocw-3l-QCY"/>
                     <constraint firstAttribute="bottom" secondItem="tPx-SD-zVJ" secondAttribute="bottom" constant="8" id="qCX-6A-mD5"/>
                     <constraint firstItem="vzS-o9-Rqa" firstAttribute="top" secondItem="1pi-IK-Mgv" secondAttribute="bottom" constant="8" id="qaF-md-LwB"/>
-                    <constraint firstAttribute="trailing" secondItem="1pi-IK-Mgv" secondAttribute="trailing" constant="16" id="tIt-GO-QHc"/>
+                    <constraint firstAttribute="trailing" secondItem="1pi-IK-Mgv" secondAttribute="trailing" priority="999" constant="16" id="tIt-GO-QHc"/>
                     <constraint firstItem="1pi-IK-Mgv" firstAttribute="leading" secondItem="CLb-Nc-0Wi" secondAttribute="trailing" constant="16" id="wJY-mX-L9L"/>
                 </constraints>
             </tableViewCellContentView>
