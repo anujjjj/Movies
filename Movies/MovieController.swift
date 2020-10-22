@@ -26,10 +26,7 @@ class MovieController: UIViewController {
         static let buttonWidth: CGFloat = 55.0
     }
     
-//    public var movies: [MovieItem] = []
     public var movieViewModel: MovieViewModel = MovieViewModel()
-    var expandedIndex: Int?
-    var shouldDisplayPlaceholderImage = false
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -62,8 +59,6 @@ class MovieController: UIViewController {
             tableView.addSubview(refreshControl)
         }
         refreshControl.addTarget(self, action: #selector(refreshHandler), for: .valueChanged)
-        tableView.rowHeight = UITableView.automaticDimension
-        tableView.estimatedRowHeight = 500
         activityIndicatorView = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
         tableView.backgroundView = activityIndicatorView
     }
@@ -153,9 +148,9 @@ class MovieController: UIViewController {
                         self.showNoNetworkAlert()
                     }
                     self.activityIndicatorView.stopAnimating()
-                    if self.movieViewModel.movies.count == 0 && !self.shouldDisplayPlaceholderImage{
+                    if self.movieViewModel.movies.count == 0 && !self.movieViewModel.shouldDisplayPlaceholderImage{
                         self.displayPlaceholderImage()
-                        self.shouldDisplayPlaceholderImage = true
+                        self.movieViewModel.shouldDisplayPlaceholderImage = true
                     }
                 }
                 return
@@ -165,10 +160,10 @@ class MovieController: UIViewController {
                 return
             }
             DispatchQueue.main.async {
-                if self.shouldDisplayPlaceholderImage {
+                if self.movieViewModel.shouldDisplayPlaceholderImage {
                     self.imageView?.removeFromSuperview()
                     self.imageView = nil;
-                    self.shouldDisplayPlaceholderImage = false
+                    self.movieViewModel.shouldDisplayPlaceholderImage = false
                 }
                 self.movieViewModel.movies.append(contentsOf: response.results)
                 self.tableView.reloadData()
@@ -179,8 +174,7 @@ class MovieController: UIViewController {
                 }
             }
         }.resume()
-    }    
-    
+    }
 }
 
 extension MovieController: UITableViewDelegate {
@@ -196,7 +190,7 @@ extension MovieController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let movie = movieViewModel.movies[indexPath.row]
-        return MovieCell2.heightOfCell(model: movie, width: tableView.frame.size.width, expanded: expandedIndex == indexPath.row)
+        return MovieCell2.heightOfCell(model: movie, width: tableView.frame.size.width, expanded: movieViewModel.expandedIndex == indexPath.row)
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -207,7 +201,7 @@ extension MovieController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let expandedIndex = expandedIndex {
+        if let expandedIndex = movieViewModel.expandedIndex {
             let previousExpandedIndexPath = IndexPath(row: expandedIndex, section: 0)
             toggleExpandedIndexSet(at: indexPath)
             tableView.reloadRows(at: [previousExpandedIndexPath, indexPath], with: .automatic)
@@ -218,10 +212,10 @@ extension MovieController: UITableViewDelegate {
     }
     
     private func toggleExpandedIndexSet(at indexPath: IndexPath) {
-        if expandedIndex == indexPath.row {
-            expandedIndex = nil
+        if movieViewModel.expandedIndex == indexPath.row {
+            movieViewModel.expandedIndex = nil
         } else {
-            expandedIndex = indexPath.row
+            movieViewModel.expandedIndex = indexPath.row
         }
     }
 }
