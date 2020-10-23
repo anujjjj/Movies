@@ -90,9 +90,6 @@ class MovieController: UIViewController {
     @objc private func refreshHandler() {
         if movieViewModel.movies.count == 0 {
             fetchMovies()
-        } else {
-            movieViewModel.movies = []
-            fetchMovies()
         }
         refreshControl.endRefreshing()
     }
@@ -135,16 +132,50 @@ class MovieController: UIViewController {
     }
     
     @objc func fetchMovies(for page: Int = 1) {
-        guard let url =  URL(string:Constants.url + String(page)) else {
-            return
-        }
+//        guard let url =  URL(string:Constants.url + String(page)) else {
+//            return
+//        }
+//
+//        URLSession.shared.dataTask(with: url) { data, response, taskError in
+//            guard let httpResponse = response as? HTTPURLResponse,
+//                  (200..<300).contains(httpResponse.statusCode),
+//                  let data = data else {
+//                DispatchQueue.main.async {
+//                    if -1009 == taskError?._code {
+//                        self.showNoNetworkAlert()
+//                    }
+//                    self.activityIndicatorView.stopAnimating()
+//                    if self.movieViewModel.movies.count == 0 && !self.movieViewModel.shouldDisplayPlaceholderImage{
+//                        self.displayPlaceholderImage()
+//                        self.movieViewModel.shouldDisplayPlaceholderImage = true
+//                    }
+//                }
+//                return
+//            }
+//            let decoder = JSONDecoder()
+//            guard let response = try? decoder.decode(MediaResponse.self, from: data) else {
+//                return
+//            }
+//            DispatchQueue.main.async {
+//                if self.movieViewModel.shouldDisplayPlaceholderImage {
+//                    self.imageView?.removeFromSuperview()
+//                    self.imageView = nil;
+//                    self.movieViewModel.shouldDisplayPlaceholderImage = false
+//                }
+//                self.movieViewModel.movies.append(contentsOf: response.results)
+//                self.tableView.reloadData()
+//                self.activityIndicatorView.stopAnimating()
+//                self.tableView.separatorStyle = .singleLine
+//                if self.movieViewModel.movies.count > 0 {
+//                    self.createFloatingButton()
+//                }
+//            }
+//        }.resume()
         
-        URLSession.shared.dataTask(with: url) { data, response, taskError in
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200..<300).contains(httpResponse.statusCode),
-                  let data = data else {
+        movieViewModel.fetchMovies(for: page) { (result) in 
+            if let taskError = result.error {
                 DispatchQueue.main.async {
-                    if -1009 == taskError?._code {
+                    if -1009 == taskError._code {
                         self.showNoNetworkAlert()
                     }
                     self.activityIndicatorView.stopAnimating()
@@ -153,27 +184,27 @@ class MovieController: UIViewController {
                         self.movieViewModel.shouldDisplayPlaceholderImage = true
                     }
                 }
-                return
-            }
-            let decoder = JSONDecoder()
-            guard let response = try? decoder.decode(MediaResponse.self, from: data) else {
-                return
-            }
-            DispatchQueue.main.async {
-                if self.movieViewModel.shouldDisplayPlaceholderImage {
-                    self.imageView?.removeFromSuperview()
-                    self.imageView = nil;
-                    self.movieViewModel.shouldDisplayPlaceholderImage = false
+            } else if let data = result.data {
+                let decoder = JSONDecoder()
+                guard let response = try? decoder.decode(MediaResponse.self, from: data) else {
+                    return
                 }
-                self.movieViewModel.movies.append(contentsOf: response.results)
-                self.tableView.reloadData()
-                self.activityIndicatorView.stopAnimating()
-                self.tableView.separatorStyle = .singleLine
-                if self.movieViewModel.movies.count > 0 {
-                    self.createFloatingButton()
+                DispatchQueue.main.async {
+                    if self.movieViewModel.shouldDisplayPlaceholderImage {
+                        self.imageView?.removeFromSuperview()
+                        self.imageView = nil;
+                        self.movieViewModel.shouldDisplayPlaceholderImage = false
+                    }
+                    self.movieViewModel.movies.append(contentsOf: response.results)
+                    self.tableView.reloadData()
+                    self.activityIndicatorView.stopAnimating()
+                    self.tableView.separatorStyle = .singleLine
+                    if self.movieViewModel.movies.count > 0 {
+                        self.createFloatingButton()
+                    }
                 }
             }
-        }.resume()
+        }
     }
 }
 
