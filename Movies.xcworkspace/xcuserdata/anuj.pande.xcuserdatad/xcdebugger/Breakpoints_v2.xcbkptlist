@@ -7,54 +7,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "EB7D94FC-8D22-4874-9BF0-7DC5F7A2B796"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Movies/MovieController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "159"
-            endingLineNumber = "159"
-            landmarkName = "fetchMovies(for:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "EB7D94FC-8D22-4874-9BF0-7DC5F7A2B796 - 6b76c0b0e53f21e7"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;__C.NSURLResponse&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Movies.MovieController.fetchMovies(for: Swift.Int) -&gt; ()"
-                  moduleName = "Movies"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/anuj.pande/Work/Movies/Movies/MovieController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "175"
-                  endingLineNumber = "175"
-                  offsetFromSymbolStart = "2262">
-               </Location>
-               <Location
-                  uuid = "EB7D94FC-8D22-4874-9BF0-7DC5F7A2B796 - 37f211d2e9ff679e"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #2 () -&gt; () in closure #1 (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;__C.NSURLResponse&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Movies.MovieController.fetchMovies(for: Swift.Int) -&gt; ()"
-                  moduleName = "Movies"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/anuj.pande/Work/Movies/Movies/MovieController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "176"
-                  endingLineNumber = "176"
-                  offsetFromSymbolStart = "95">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "16293A1D-B96C-431C-8A0C-B1E8BAC3FCC2"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -66,54 +18,6 @@
             endingLineNumber = "84"
             landmarkName = "heightOfCell(model:width:expanded:)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "DC057408-564D-40B1-A224-A04F52ABB655"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Movies/MovieController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "134"
-            endingLineNumber = "134"
-            landmarkName = "scrollToTop(_:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "DC057408-564D-40B1-A224-A04F52ABB655 - 95c7ee4af271227a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "default argument 0 of Movies.MovieController.fetchMovies(for: Swift.Int) -&gt; ()"
-                  moduleName = "Movies"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/anuj.pande/Work/Movies/Movies/MovieController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "137"
-                  endingLineNumber = "137"
-                  offsetFromSymbolStart = "9">
-               </Location>
-               <Location
-                  uuid = "DC057408-564D-40B1-A224-A04F52ABB655 - 9f69135a7f580920"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Movies.MovieController.fetchMovies(for: Swift.Int) -&gt; ()"
-                  moduleName = "Movies"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/anuj.pande/Work/Movies/Movies/MovieController.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "178"
-                  endingLineNumber = "178"
-                  offsetFromSymbolStart = "248">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -132,36 +36,52 @@
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "E01C659B-72F3-4CD2-A57B-E0E91E2A64CA - a77456dd6ce7e646"
+                  uuid = "E01C659B-72F3-4CD2-A57B-E0E91E2A64CA - 63f1244867894878"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "default argument 0 of Movies.MovieViewModel.fetchMovies(for: Swift.Int) -&gt; Movies.MovieViewModel.Results"
+                  symbolName = "default argument 0 of Movies.MovieViewModel.fetchMovies(for: Swift.Int, completionBlock: (Movies.Results) -&gt; ()) -&gt; ()"
                   moduleName = "Movies"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/anuj.pande/Work/Movies/Movies/MovieViewModel.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "42"
-                  endingLineNumber = "42"
+                  startingLineNumber = "20"
+                  endingLineNumber = "20"
                   offsetFromSymbolStart = "9">
                </Location>
                <Location
-                  uuid = "E01C659B-72F3-4CD2-A57B-E0E91E2A64CA - 774ea44c38d8f8b8"
+                  uuid = "E01C659B-72F3-4CD2-A57B-E0E91E2A64CA - a1dec06f41c66472"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "Movies.MovieViewModel.fetchMovies(for: Swift.Int) -&gt; Movies.MovieViewModel.Results"
+                  symbolName = "Movies.MovieViewModel.fetchMovies(for: Swift.Int, completionBlock: (Movies.Results) -&gt; ()) -&gt; ()"
                   moduleName = "Movies"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/anuj.pande/Work/Movies/Movies/MovieViewModel.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "43"
-                  endingLineNumber = "43"
-                  offsetFromSymbolStart = "216">
+                  startingLineNumber = "21"
+                  endingLineNumber = "21"
+                  offsetFromSymbolStart = "262">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "BD2F59E2-0633-4A9D-A46F-3CE0FD09F40C"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Movies/MovieController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "213"
+            endingLineNumber = "213"
+            landmarkName = "loadFromCoreData()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

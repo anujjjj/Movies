@@ -1,9 +1,8 @@
 //
 //  Movie+CoreDataClass.swift
-//  
+//  Movies
 //
-//  Created by Anuj Pande on 10/10/20.
-//
+//  Created by Anuj Pande on 26/10/20.
 //
 
 import Foundation

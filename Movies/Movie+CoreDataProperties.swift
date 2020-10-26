@@ -2,7 +2,7 @@
 //  Movie+CoreDataProperties.swift
 //  
 //
-//  Created by Anuj Pande on 10/10/20.
+//  Created by Anuj Pande on 26/10/20.
 //
 //
 
@@ -17,10 +17,11 @@ extension Movie {
     }
 
     @NSManaged public var id: Int64
-    @NSManaged public var totalVotes: Int64
-    @NSManaged public var title: String?
+    @NSManaged public var overview: String?
     @NSManaged public var posterPath: String?
     @NSManaged public var rating: Double
-    @NSManaged public var overview: String?
+    @NSManaged public var title: String?
+    @NSManaged public var totalVotes: Int64
+    @NSManaged public var popularity: Double
 
 }

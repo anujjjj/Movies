@@ -8,12 +8,13 @@
 import Foundation
 
 class MovieItem: NSObject, Codable, Identifiable {
-    let id: Int
-    let totalVotes: Int
-    let rating: Double
-    let title: String
-    let posterPath : String
-    let overview: String
+    var id: Int
+    var totalVotes: Int
+    var rating: Double
+    var title: String
+    var posterPath : String
+    var overview: String
+    var popularity: Double
     
     override init() {
         id = 123
@@ -22,6 +23,7 @@ class MovieItem: NSObject, Codable, Identifiable {
         title = "Movie Title "
         posterPath = "Asd ASD"
         overview = "Overview"
+        popularity = 0.0
     }
     
     enum CodingKeys: String, CodingKey {
@@ -31,5 +33,6 @@ class MovieItem: NSObject, Codable, Identifiable {
         case title = "title"
         case posterPath = "poster_path"
         case overview = "overview"
+        case popularity = "popularity"
     }
 }

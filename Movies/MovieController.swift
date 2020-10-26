@@ -8,8 +8,13 @@
 import Foundation
 import UIKit
 import Kingfisher
+import CoreData
 
 class MovieController: UIViewController {
+    
+    private let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    private var fetchedRC: NSFetchedResultsController<Movie>!
     
     var refreshControl = UIRefreshControl()
     private weak var imageView : UIImageView?
@@ -132,46 +137,6 @@ class MovieController: UIViewController {
     }
     
     @objc func fetchMovies(for page: Int = 1) {
-//        guard let url =  URL(string:Constants.url + String(page)) else {
-//            return
-//        }
-//
-//        URLSession.shared.dataTask(with: url) { data, response, taskError in
-//            guard let httpResponse = response as? HTTPURLResponse,
-//                  (200..<300).contains(httpResponse.statusCode),
-//                  let data = data else {
-//                DispatchQueue.main.async {
-//                    if -1009 == taskError?._code {
-//                        self.showNoNetworkAlert()
-//                    }
-//                    self.activityIndicatorView.stopAnimating()
-//                    if self.movieViewModel.movies.count == 0 && !self.movieViewModel.shouldDisplayPlaceholderImage{
-//                        self.displayPlaceholderImage()
-//                        self.movieViewModel.shouldDisplayPlaceholderImage = true
-//                    }
-//                }
-//                return
-//            }
-//            let decoder = JSONDecoder()
-//            guard let response = try? decoder.decode(MediaResponse.self, from: data) else {
-//                return
-//            }
-//            DispatchQueue.main.async {
-//                if self.movieViewModel.shouldDisplayPlaceholderImage {
-//                    self.imageView?.removeFromSuperview()
-//                    self.imageView = nil;
-//                    self.movieViewModel.shouldDisplayPlaceholderImage = false
-//                }
-//                self.movieViewModel.movies.append(contentsOf: response.results)
-//                self.tableView.reloadData()
-//                self.activityIndicatorView.stopAnimating()
-//                self.tableView.separatorStyle = .singleLine
-//                if self.movieViewModel.movies.count > 0 {
-//                    self.createFloatingButton()
-//                }
-//            }
-//        }.resume()
-        
         movieViewModel.fetchMovies(for: page) { (result) in 
             if let taskError = result.error {
                 DispatchQueue.main.async {
@@ -189,6 +154,10 @@ class MovieController: UIViewController {
                 guard let response = try? decoder.decode(MediaResponse.self, from: data) else {
                     return
                 }
+                if page == 1 {
+                    self.saveMoviesToCoreData(response.results)
+                }
+                self.loadFromCoreData()
                 DispatchQueue.main.async {
                     if self.movieViewModel.shouldDisplayPlaceholderImage {
                         self.imageView?.removeFromSuperview()
@@ -205,6 +174,53 @@ class MovieController: UIViewController {
                 }
             }
         }
+    }
+    
+    private func saveMoviesToCoreData(_ movies: [MovieItem]) {
+        for movie in movies {
+            let movieModel = Movie(entity: Movie.entity(), insertInto: self.context)
+            movieModel.id = Int64(movie.id)
+            movieModel.title = movie.title
+            movieModel.overview = movie.overview
+            movieModel.posterPath = movie.posterPath
+            movieModel.rating = movie.rating
+            movieModel.popularity = movie.popularity
+        }
+        do {
+            try context.save()
+            print("Success")
+        } catch {
+            print("Error saving: \(error)")
+        }
+    }
+    
+    private func refresh() {
+        let request = Movie.fetchRequest() as NSFetchRequest<Movie>
+        do {
+            request.sortDescriptors = [NSSortDescriptor(key: #keyPath(Movie.rating), ascending: false)]
+            fetchedRC = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
+            try fetchedRC.performFetch()
+        } catch let error as NSError {
+            print("Could not fetch. \(error), \(error.userInfo)")
+        }
+    }
+    
+    private func loadFromCoreData() {
+        refresh()
+        guard let movieModels = fetchedRC.fetchedObjects else {
+            return
+        }
+        print(movieModels[0])
+//        for movieModel in  movieModels {
+//            let movie = MovieItem()
+//            movie.id = Int(movieModel.id)
+//            movie.title = movieModel.title ?? ""
+//            movie.overview = movieModel.overview ?? ""
+//            movie.posterPath = movieModel.posterPath ?? ""
+//            movie.rating = movieModel.rating
+//            movie.popularity = movieModel.popularity
+//            movieViewModel.movies.append(movie)
+//        }
     }
 }
 
@@ -249,6 +265,7 @@ extension MovieController: UITableViewDelegate {
             movieViewModel.expandedIndex = indexPath.row
         }
     }
+
 }
 
 extension MovieController: UITableViewDataSource {
