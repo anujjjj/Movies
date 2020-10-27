@@ -65,7 +65,7 @@ class MovieController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        movieViewModel.refresh()
+        movieViewModel.loadFromCoreData()
         if(movieViewModel.getNumberOfMovies() == 0) {
             activityIndicatorView.startAnimating()
             tableView.separatorStyle = .none
@@ -90,9 +90,7 @@ class MovieController: UIViewController {
     }
     
     @objc private func refreshHandler() {
-        if movieViewModel.getNumberOfMovies() == 0 {
-            fetchMovies()
-        }
+        fetchMovies()
         refreshControl.endRefreshing()
     }
     
@@ -153,7 +151,6 @@ class MovieController: UIViewController {
                         self.imageView = nil;
                         self.movieViewModel.shouldDisplayPlaceholderImage = false
                     }
-//                    self.movieViewModel.movies.append(contentsOf: data)
                     self.tableView.reloadData()
                     self.activityIndicatorView.stopAnimating()
                     self.tableView.separatorStyle = .singleLine
@@ -170,7 +167,6 @@ extension MovieController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell6", for: indexPath)
-//        let movie = movieViewModel.movies[indexPath.row]
         let movieModel = movieViewModel.fetchedRC.object(at: indexPath)
         let movie = MovieItem()
         movie.id = Int(movieModel.id)
@@ -187,7 +183,6 @@ extension MovieController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        let movie = movieViewModel.movies[indexPath.row]
         let movieModel = movieViewModel.fetchedRC.object(at: indexPath)
         let movie = MovieItem()
         movie.id = Int(movieModel.id)
@@ -201,7 +196,6 @@ extension MovieController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row == movieViewModel.getNumberOfMovies() - 1 {
-//        if indexPath.row == movieViewModel.movies.count - 1 {
             let page = Int((indexPath.row + 1) / 20) + 1
             fetchMovies(for: page)
         }

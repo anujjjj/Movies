@@ -23,16 +23,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "19690BB0-B5DA-402B-8A68-E17278D7D0C1"
+            uuid = "189A39DD-AF77-4B7E-B958-5AB53E9B22A5"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Movies/MovieViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "64"
-            endingLineNumber = "64"
-            landmarkName = "loadFromCoreData()"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
+            landmarkName = "fetchMovies(for:completionBlock:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

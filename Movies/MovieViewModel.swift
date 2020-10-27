@@ -11,7 +11,6 @@ import UIKit
 
 class MovieViewModel {
     
-//    var movies: Array<MovieItem> = []
     var expandedIndex: Int?
     var shouldDisplayPlaceholderImage = false
     
@@ -20,7 +19,6 @@ class MovieViewModel {
     var fetchedRC: NSFetchedResultsController<Movie>!
     
     func numberOfRowsInSection() -> Int {
-//        return movies.count
         guard let sections = fetchedRC.sections, let objs = sections[0].objects else {
             return 0
         }
@@ -45,7 +43,7 @@ class MovieViewModel {
         }
     }
     
-    func refresh() {
+    func loadFromCoreData() {
         let request = Movie.fetchRequest() as NSFetchRequest<Movie>
         do {
             request.sortDescriptors = [NSSortDescriptor(key: #keyPath(Movie.popularity), ascending: false)]
@@ -54,24 +52,6 @@ class MovieViewModel {
         } catch let error as NSError {
             print("Could not fetch. \(error), \(error.userInfo)")
         }
-    }
-    
-    func loadFromCoreData() {
-        refresh()
-        guard let movieModels = fetchedRC.fetchedObjects else {
-            return
-        }
-        print(movieModels[0])
-//        for movieModel in  movieModels {
-//            let movie = MovieItem()
-//            movie.id = Int(movieModel.id)
-//            movie.title = movieModel.title ?? ""
-//            movie.overview = movieModel.overview ?? ""
-//            movie.posterPath = movieModel.posterPath ?? ""
-//            movie.rating = movieModel.rating
-//            movie.popularity = movieModel.popularity
-//            movies.append(movie)
-//        }
     }
     
     func fetchMovies(for page: Int = 1, completionBlock: @escaping (Results) -> Void) -> Void {
