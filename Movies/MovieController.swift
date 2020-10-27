@@ -90,6 +90,7 @@ class MovieController: UIViewController {
     }
     
     @objc private func refreshHandler() {
+        movieViewModel.deleteAllData()
         fetchMovies()
         refreshControl.endRefreshing()
     }

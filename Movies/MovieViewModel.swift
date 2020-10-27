@@ -25,6 +25,10 @@ class MovieViewModel {
         return objs.count
     }
     
+    func getNumberOfMovies() -> Int {
+        return fetchedRC.fetchedObjects?.count ?? 0
+    }
+    
     func saveMoviesToCoreData(_ movies: [MovieItem]) {
         for movie in movies {
             let movieModel = Movie(entity: Movie.entity(), insertInto: self.context)
@@ -74,12 +78,26 @@ class MovieViewModel {
             }
             self.saveMoviesToCoreData(response.results)
             self.loadFromCoreData()
+            print(self.getNumberOfMovies())
             result.data = response.results
             completionBlock(result)
         }.resume()
     }
     
-    func getNumberOfMovies() -> Int {
-        return fetchedRC.fetchedObjects?.count ?? 0
+    func deleteAllData()
+    {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Movie")
+        fetchRequest.returnsObjectsAsFaults = false
+        do
+        {
+            let results = try context.fetch(fetchRequest)
+            for managedObject in results
+            {
+                let managedObjectData:NSManagedObject = managedObject as! NSManagedObject
+                context.delete(managedObjectData)
+            }
+        } catch let error as NSError {
+            print("Detele all data in \("Movie") error : \(error) \(error.userInfo)")
+        }
     }
 }
