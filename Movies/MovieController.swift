@@ -12,10 +12,6 @@ import CoreData
 
 class MovieController: UIViewController {
     
-    private let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-    private var fetchedRC: NSFetchedResultsController<Movie>!
-    
     var refreshControl = UIRefreshControl()
     private weak var imageView : UIImageView?
     private var goToTopButton: UIButton?
@@ -150,21 +146,19 @@ class MovieController: UIViewController {
                     }
                 }
             } else if let data = result.data {
-                let decoder = JSONDecoder()
-                guard let response = try? decoder.decode(MediaResponse.self, from: data) else {
-                    return
-                }
-                if page == 1 {
-                    self.saveMoviesToCoreData(response.results)
-                }
-                self.loadFromCoreData()
+//                let decoder = JSONDecoder()
+//                guard let response = try? decoder.decode(MediaResponse.self, from: data) else {
+//                    return
+//                }
+//                self.movieViewModel.saveMoviesToCoreData(response.results)
+//                self.movieViewModel.loadFromCoreData()
                 DispatchQueue.main.async {
                     if self.movieViewModel.shouldDisplayPlaceholderImage {
                         self.imageView?.removeFromSuperview()
                         self.imageView = nil;
                         self.movieViewModel.shouldDisplayPlaceholderImage = false
                     }
-                    self.movieViewModel.movies.append(contentsOf: response.results)
+                    self.movieViewModel.movies.append(contentsOf: data)
                     self.tableView.reloadData()
                     self.activityIndicatorView.stopAnimating()
                     self.tableView.separatorStyle = .singleLine
@@ -174,53 +168,6 @@ class MovieController: UIViewController {
                 }
             }
         }
-    }
-    
-    private func saveMoviesToCoreData(_ movies: [MovieItem]) {
-        for movie in movies {
-            let movieModel = Movie(entity: Movie.entity(), insertInto: self.context)
-            movieModel.id = Int64(movie.id)
-            movieModel.title = movie.title
-            movieModel.overview = movie.overview
-            movieModel.posterPath = movie.posterPath
-            movieModel.rating = movie.rating
-            movieModel.popularity = movie.popularity
-        }
-        do {
-            try context.save()
-            print("Success")
-        } catch {
-            print("Error saving: \(error)")
-        }
-    }
-    
-    private func refresh() {
-        let request = Movie.fetchRequest() as NSFetchRequest<Movie>
-        do {
-            request.sortDescriptors = [NSSortDescriptor(key: #keyPath(Movie.rating), ascending: false)]
-            fetchedRC = NSFetchedResultsController(fetchRequest: request, managedObjectContext: context, sectionNameKeyPath: nil, cacheName: nil)
-            try fetchedRC.performFetch()
-        } catch let error as NSError {
-            print("Could not fetch. \(error), \(error.userInfo)")
-        }
-    }
-    
-    private func loadFromCoreData() {
-        refresh()
-        guard let movieModels = fetchedRC.fetchedObjects else {
-            return
-        }
-        print(movieModels[0])
-//        for movieModel in  movieModels {
-//            let movie = MovieItem()
-//            movie.id = Int(movieModel.id)
-//            movie.title = movieModel.title ?? ""
-//            movie.overview = movieModel.overview ?? ""
-//            movie.posterPath = movieModel.posterPath ?? ""
-//            movie.rating = movieModel.rating
-//            movie.popularity = movieModel.popularity
-//            movieViewModel.movies.append(movie)
-//        }
     }
 }
 

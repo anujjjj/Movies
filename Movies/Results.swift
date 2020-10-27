@@ -8,7 +8,7 @@
 import Foundation
 
 struct Results {
-    var data: Data?
+    var data: [MovieItem]?
     var response: URLResponse?
     var error: Error?
     
@@ -18,7 +18,7 @@ struct Results {
         self.error = nil
     }
     
-    init(withData data: Data?, response: URLResponse?, error: Error?) {
+    init(withData data: [MovieItem]?, response: URLResponse?, error: Error?) {
         self.data = data
         self.response = response
         self.error = error

@@ -23,63 +23,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "E01C659B-72F3-4CD2-A57B-E0E91E2A64CA"
+            uuid = "19690BB0-B5DA-402B-8A68-E17278D7D0C1"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Movies/MovieViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "20"
-            endingLineNumber = "20"
-            landmarkName = "fetchMovies(for:completionBlock:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "E01C659B-72F3-4CD2-A57B-E0E91E2A64CA - 63f1244867894878"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "default argument 0 of Movies.MovieViewModel.fetchMovies(for: Swift.Int, completionBlock: (Movies.Results) -&gt; ()) -&gt; ()"
-                  moduleName = "Movies"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/anuj.pande/Work/Movies/Movies/MovieViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "20"
-                  endingLineNumber = "20"
-                  offsetFromSymbolStart = "9">
-               </Location>
-               <Location
-                  uuid = "E01C659B-72F3-4CD2-A57B-E0E91E2A64CA - a1dec06f41c66472"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Movies.MovieViewModel.fetchMovies(for: Swift.Int, completionBlock: (Movies.Results) -&gt; ()) -&gt; ()"
-                  moduleName = "Movies"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/anuj.pande/Work/Movies/Movies/MovieViewModel.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "21"
-                  endingLineNumber = "21"
-                  offsetFromSymbolStart = "262">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "BD2F59E2-0633-4A9D-A46F-3CE0FD09F40C"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Movies/MovieController.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "213"
-            endingLineNumber = "213"
+            startingLineNumber = "60"
+            endingLineNumber = "60"
             landmarkName = "loadFromCoreData()"
             landmarkType = "7">
          </BreakpointContent>
