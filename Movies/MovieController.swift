@@ -200,7 +200,11 @@ extension MovieController: UITableViewDelegate {
         if let expandedIndex = movieViewModel.expandedIndex {
             let previousExpandedIndexPath = IndexPath(row: expandedIndex, section: 0)
             toggleExpandedIndexSet(at: indexPath)
-            tableView.reloadRows(at: [previousExpandedIndexPath, indexPath], with: .automatic)
+            if ((tableView.indexPathsForVisibleRows?.contains(previousExpandedIndexPath)) != nil) {
+                tableView.reloadRows(at: [previousExpandedIndexPath, indexPath], with: .automatic)
+            } else {
+                tableView.reloadRows(at: [ indexPath], with: .automatic)
+            }
         } else {
             toggleExpandedIndexSet(at: indexPath)
             tableView.reloadRows(at: [ indexPath], with: .automatic)
