@@ -30,8 +30,8 @@
             filePath = "Movies/MovieViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "60"
-            endingLineNumber = "60"
+            startingLineNumber = "64"
+            endingLineNumber = "64"
             landmarkName = "loadFromCoreData()"
             landmarkType = "7">
          </BreakpointContent>

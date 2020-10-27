@@ -11,7 +11,7 @@ import UIKit
 
 class MovieViewModel {
     
-    var movies: Array<MovieItem> = []
+//    var movies: Array<MovieItem> = []
     var expandedIndex: Int?
     var shouldDisplayPlaceholderImage = false
     
@@ -20,7 +20,11 @@ class MovieViewModel {
     var fetchedRC: NSFetchedResultsController<Movie>!
     
     func numberOfRowsInSection() -> Int {
-        return movies.count
+//        return movies.count
+        guard let sections = fetchedRC.sections, let objs = sections[0].objects else {
+            return 0
+        }
+        return objs.count
     }
     
     func saveMoviesToCoreData(_ movies: [MovieItem]) {
@@ -58,16 +62,16 @@ class MovieViewModel {
             return
         }
         print(movieModels[0])
-        for movieModel in  movieModels {
-            let movie = MovieItem()
-            movie.id = Int(movieModel.id)
-            movie.title = movieModel.title ?? ""
-            movie.overview = movieModel.overview ?? ""
-            movie.posterPath = movieModel.posterPath ?? ""
-            movie.rating = movieModel.rating
-            movie.popularity = movieModel.popularity
-            movies.append(movie)
-        }
+//        for movieModel in  movieModels {
+//            let movie = MovieItem()
+//            movie.id = Int(movieModel.id)
+//            movie.title = movieModel.title ?? ""
+//            movie.overview = movieModel.overview ?? ""
+//            movie.posterPath = movieModel.posterPath ?? ""
+//            movie.rating = movieModel.rating
+//            movie.popularity = movieModel.popularity
+//            movies.append(movie)
+//        }
     }
     
     func fetchMovies(for page: Int = 1, completionBlock: @escaping (Results) -> Void) -> Void {
@@ -93,5 +97,9 @@ class MovieViewModel {
             result.data = response.results
             completionBlock(result)
         }.resume()
+    }
+    
+    func getNumberOfMovies() -> Int {
+        return fetchedRC.fetchedObjects?.count ?? 0
     }
 }

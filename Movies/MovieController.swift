@@ -65,7 +65,8 @@ class MovieController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if(movieViewModel.movies.count == 0) {
+        movieViewModel.refresh()
+        if(movieViewModel.getNumberOfMovies() == 0) {
             activityIndicatorView.startAnimating()
             tableView.separatorStyle = .none
             fetchMovies()
@@ -89,7 +90,7 @@ class MovieController: UIViewController {
     }
     
     @objc private func refreshHandler() {
-        if movieViewModel.movies.count == 0 {
+        if movieViewModel.getNumberOfMovies() == 0 {
             fetchMovies()
         }
         refreshControl.endRefreshing()
@@ -140,29 +141,23 @@ class MovieController: UIViewController {
                         self.showNoNetworkAlert()
                     }
                     self.activityIndicatorView.stopAnimating()
-                    if self.movieViewModel.movies.count == 0 && !self.movieViewModel.shouldDisplayPlaceholderImage{
+                    if self.movieViewModel.getNumberOfMovies() == 0 && !self.movieViewModel.shouldDisplayPlaceholderImage{
                         self.displayPlaceholderImage()
                         self.movieViewModel.shouldDisplayPlaceholderImage = true
                     }
                 }
-            } else if let data = result.data {
-//                let decoder = JSONDecoder()
-//                guard let response = try? decoder.decode(MediaResponse.self, from: data) else {
-//                    return
-//                }
-//                self.movieViewModel.saveMoviesToCoreData(response.results)
-//                self.movieViewModel.loadFromCoreData()
+            } else if result.data != nil {
                 DispatchQueue.main.async {
                     if self.movieViewModel.shouldDisplayPlaceholderImage {
                         self.imageView?.removeFromSuperview()
                         self.imageView = nil;
                         self.movieViewModel.shouldDisplayPlaceholderImage = false
                     }
-                    self.movieViewModel.movies.append(contentsOf: data)
+//                    self.movieViewModel.movies.append(contentsOf: data)
                     self.tableView.reloadData()
                     self.activityIndicatorView.stopAnimating()
                     self.tableView.separatorStyle = .singleLine
-                    if self.movieViewModel.movies.count > 0 {
+                    if self.movieViewModel.getNumberOfMovies() > 0 {
                         self.createFloatingButton()
                     }
                 }
@@ -175,7 +170,16 @@ extension MovieController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MovieCell6", for: indexPath)
-        let movie = movieViewModel.movies[indexPath.row]
+//        let movie = movieViewModel.movies[indexPath.row]
+        let movieModel = movieViewModel.fetchedRC.object(at: indexPath)
+        let movie = MovieItem()
+        movie.id = Int(movieModel.id)
+        movie.title = movieModel.title ?? ""
+        movie.overview = movieModel.overview ?? ""
+        movie.posterPath = movieModel.posterPath ?? ""
+        movie.rating = movieModel.rating
+        movie.popularity = movieModel.popularity
+        
         let movieCell = cell as! MovieCell2
         movieCell.resetPosterConstraint()
         movieCell.configureCell(for: cell, with: movie,at: indexPath)
@@ -183,12 +187,21 @@ extension MovieController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let movie = movieViewModel.movies[indexPath.row]
+//        let movie = movieViewModel.movies[indexPath.row]
+        let movieModel = movieViewModel.fetchedRC.object(at: indexPath)
+        let movie = MovieItem()
+        movie.id = Int(movieModel.id)
+        movie.title = movieModel.title ?? ""
+        movie.overview = movieModel.overview ?? ""
+        movie.posterPath = movieModel.posterPath ?? ""
+        movie.rating = movieModel.rating
+        movie.popularity = movieModel.popularity
         return MovieCell2.heightOfCell(model: movie, width: tableView.frame.size.width, expanded: movieViewModel.expandedIndex == indexPath.row)
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        if indexPath.row == movieViewModel.movies.count - 1 {
+        if indexPath.row == movieViewModel.getNumberOfMovies() - 1 {
+//        if indexPath.row == movieViewModel.movies.count - 1 {
             let page = Int((indexPath.row + 1) / 20) + 1
             fetchMovies(for: page)
         }
