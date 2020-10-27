@@ -100,4 +100,15 @@ class MovieViewModel {
             print("Detele all data in \("Movie") error : \(error) \(error.userInfo)")
         }
     }
+    
+    func transformToMovieItem(_ movieModel: Movie) -> MovieItem {
+        let movie = MovieItem()
+        movie.id = Int(movieModel.id)
+        movie.title = movieModel.title ?? ""
+        movie.overview = movieModel.overview ?? ""
+        movie.posterPath = movieModel.posterPath ?? ""
+        movie.rating = movieModel.rating
+        movie.popularity = movieModel.popularity
+        return movie
+    }
 }
