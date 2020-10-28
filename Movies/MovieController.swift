@@ -67,11 +67,9 @@ class MovieController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         movieViewModel.loadFromCoreData()
-//        if(movieViewModel.getNumberOfMovies() == 0) {
             activityIndicatorView.startAnimating()
             tableView.separatorStyle = .none
             fetchMovies()
-//        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -93,12 +91,13 @@ class MovieController: UIViewController {
     @objc private func refreshHandler() {
         movieViewModel.deleteAllData()
         fetchMovies()
+        self.refreshControl.endRefreshing()
     }
     
     private func showNoNetworkAlert() {
         let alert = UIAlertController(title: "Could not connect to network", message: "Please check your internet connection", preferredStyle: .alert)
-        let action = UIAlertAction(title: "Ok", style: .default) { _ in
-            self.refreshControl.endRefreshing()
+        let action = UIAlertAction(title: "Ok", style: .default) { [weak self] _ in
+            self?.refreshControl.endRefreshing()
         }
         alert.addAction(action)
         self.present(alert, animated: true, completion: nil)
@@ -135,38 +134,39 @@ class MovieController: UIViewController {
     }
     
     @objc func fetchMovies(for page: Int = 1) {
-        movieViewModel.fetchMovies(for: page) { (result) in 
+        movieViewModel.fetchMovies(for: page) { [weak self] (result) in
             if let taskError = result.error {
                 DispatchQueue.main.async {
                     if -1009 == taskError._code {
-                        self.showNoNetworkAlert()
+                        self?.showNoNetworkAlert()
                     }
-                    self.activityIndicatorView.stopAnimating()
-                    if self.movieViewModel.getNumberOfMovies() == 0 && !self.movieViewModel.shouldDisplayPlaceholderImage{
-                        self.displayPlaceholderImage()
-                        self.movieViewModel.shouldDisplayPlaceholderImage = true
+                    self?.activityIndicatorView.stopAnimating()
+                    if self?.movieViewModel.getNumberOfMovies() == 0 && !(self?.movieViewModel.shouldDisplayPlaceholderImage ?? false){
+                        self?.displayPlaceholderImage()
+                        self?.movieViewModel.shouldDisplayPlaceholderImage = true
                     }
                 }
             } else if result.data != nil {
                 DispatchQueue.main.async {
-                    if self.movieViewModel.shouldDisplayPlaceholderImage {
-                        self.imageView?.removeFromSuperview()
-                        self.imageView = nil;
-                        self.movieViewModel.shouldDisplayPlaceholderImage = false
+                    if ((self?.movieViewModel.shouldDisplayPlaceholderImage) != nil) {
+                        self?.imageView?.removeFromSuperview()
+                        self?.imageView = nil;
+                        self?.movieViewModel.shouldDisplayPlaceholderImage = false
                     }
-                    self.tableView.reloadData()
+                    self?.tableView.reloadData()
                 }
             }
             DispatchQueue.main.async {
-                self.activityIndicatorView.stopAnimating()
-                if self.movieViewModel.getNumberOfMovies() > 0 {
-                    self.createFloatingButton()
+                self?.activityIndicatorView.stopAnimating()
+                if self?.movieViewModel.getNumberOfMovies() ?? 0 > 0 {
+                    self?.createFloatingButton()
                 }
             }
         }
     }
 }
 
+// MARK: - UITableViewDelegate
 extension MovieController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -220,6 +220,7 @@ extension MovieController: UITableViewDelegate {
     }
 }
 
+// MARK: - UITableViewDataSource
 extension MovieController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1

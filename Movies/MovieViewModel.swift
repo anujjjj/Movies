@@ -64,7 +64,7 @@ class MovieViewModel {
         }
         
         var result = Results()
-        URLSession.shared.dataTask(with: url) { data, response, taskError in
+        URLSession.shared.dataTask(with: url) { [weak self]  data, response, taskError in
             guard let httpResponse = response as? HTTPURLResponse,
                   (200..<300).contains(httpResponse.statusCode),
                   let data = data else {
@@ -76,9 +76,9 @@ class MovieViewModel {
             guard let response = try? decoder.decode(MediaResponse.self, from: data) else {
                 return
             }
-            self.saveMoviesToCoreData(response.results)
-            self.loadFromCoreData()
-            print(self.getNumberOfMovies())
+            self?.saveMoviesToCoreData(response.results)
+            self?.loadFromCoreData()
+            print(self?.getNumberOfMovies() ?? 0)
             result.data = response.results
             completionBlock(result)
         }.resume()
